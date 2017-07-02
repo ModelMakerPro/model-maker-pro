@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>ModelMakerPro-一个模型+模版 一键生成RESTful接口</title>
+    <link rel="stylesheet" href="https://unpkg.com/docute@3/dist/docute.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/docute@3/dist/docute.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docute-evanyou/dist/evanyou.min.js"></script>
+<!-- don't remove this part -->
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.js"></script>
+<script>
+  window.docute.init({
+    url: '.',
+    sidebar: true,
+    landing: 'landing.html',
+    html: '<h2>inline html</h2>',
+    debug: true,
+//    home: 'https://raw.githubusercontent.com/deboyblog/model-maker-pro/master/README.md',
+    nav: [
+//      // 首页
+      {title: '首页', path: '/'},
+      // 中文文档
+      {title: '下载', path: '/download'}
+    ],
+    repo: 'deboyblog/model-maker-pro',
+    // the link to source file of current page
+    'edit-link': 'https://github.com/deboyblog/model-maker-pro/tree/master/docs',
+    plugins: [
+      evanyou()
+    ]
+  })
+</script>
+</body>
+</html>

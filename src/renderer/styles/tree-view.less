@@ -1,0 +1,25 @@
+@booleanColor: #ae81ff;
+@stringColor: #e6db74;
+.tree-view-wrapper{
+  background: #23241f;
+  color: #e6db74;
+  line-height: 1.5;
+  min-height: 100%;
+  .tree-view-item-key, .tree-view-item-value{
+    font-family: Consolas,Menlo,Courier,monospace;
+    font-size: 1.2em;
+    font-weight: lighter !important;
+  }
+  .tree-view-item-key-with-chevron::before{
+    color: white !important;
+  }
+  .tree-view-item-value{
+    &-null, &-boolean, &-number{
+      color: @booleanColor;
+    }
+  }
+  .tree-view-item-hint{
+    font-weight: 600;
+    font-size: 1.1em;
+  }
+}
