@@ -1,12 +1,16 @@
-## [Document](https://deboyblog.github.io/model-maker-pro/#/)
+## [Document](https://modelmakerpro.github.io/model-maker-pro/#/)
 ## !注意! 
-该软件需要配合模版使用 这个周末我会整理出`laravel`的模版放到上面 还会出一份具体的使用教程 原谅我这段时间比较忙 可以先`star`🙏 
+该软件需要配合模版使用 [templates](https://github.com/ModelMakerPro/templates)
 
-等我把目前发现的 `bug` 修复后会在 `掘金` 和`laravel中文社区` 发文章推广 届时再使用体验更佳 2017-6-30
+我近期还会出一份具体的使用教程 原谅我这段时间比较忙 可以先`star`🙏 
+
+等我把目前发现的 `bug` 修复后会在 `掘金` 和`laravel中文社区` 发文章推广 届时再使用体验更佳
 
 想现在就加入开发的可以联系我
+
 微信
 ![wechat](./wechat.jpg)
+
 ## 软件介绍
 `ModelMakerPro` 一款以设计软件表结构为核心 通过与模版结合 生成各种文件的工具     
 模版可以是`Java`项目的  
