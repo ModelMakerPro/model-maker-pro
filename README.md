@@ -105,6 +105,6 @@ A: 经过我司实践 已经生成了一个项目
 ### Q: 需要付费吗?
 A: 完全不需要
 ## License
-[MIT](https://en.wikipedia.org/wiki/MIT_License)
+[MIT](https://github.com/ModelMakerPro/model-maker-pro/blob/master/LICENSE)
 
 ## [Document](https://deboyblog.github.io/model-maker-pro/#/)
