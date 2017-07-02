@@ -4,7 +4,7 @@
 `Domain` `Repository` `Controller` `Service`    
 也可以是`Laravel`项目的    
 `routes` `Controller` `Model`
-如果希望支持其他项目模版 可以参考 一个标准模版的[编写示范](https://github.com/deboyblog/model-maker-pro/blob/master/src/renderer/config/default-row/springboot.js)提交你们的模版 
+如果希望支持其他项目模版 可以参考 一个标准模版的[编写示范](https://github.com/ModelMakerPro/model-maker-pro/blob/master/src/renderer/config/default-row/laravel.js)提交你们的模版 
 等待你们发掘
 
 ## 开发技术栈: 
@@ -24,19 +24,8 @@
 4. 提交 然后 创建 `pull request`
 
 ## 模版编写规范(导出才用到的)
-> 晚些放上 `demo`
 
-模版引擎采用了 [`handlebars`](http://handlebarsjs.com/)   
-我深知我个人是无法了解多种语言/框架的编写规范和所需要的重复劳动, 因此, 我需要你的帮助!  
-你们对自己常用开发框架有足够多的时间去深入了解, 因此, 你比我更适合为你所熟悉的语言/框架编写一个规范的配置.    
-请提交模版到 `template` 目录中
-命名规范
-```bash
-└─ Offical [username]
-    └─ Java [language]
-        └─ SpringBoot [Framework Name or Native]
-```
-然后 `pull request`
+[点我点我: https://github.com/ModelMakerPro/templates](https://github.com/ModelMakerPro/templates)
 
 ### 模版帮助函数(helper)
 > 在软件中也可以看到 并且是最新的
