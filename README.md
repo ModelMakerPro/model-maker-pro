@@ -17,7 +17,7 @@
 `Domain` `Repository` `Controller` `Service`    
 也可以是`Laravel`项目的    
 `routes` `Controller` `Model`
-如果希望支持其他项目模版 可以参考 一个标准模版的[编写示范](https://github.com/deboyblog/model-maker-pro/blob/master/src/renderer/config/default-row/springboot.js)提交你们的模版 
+如果希望支持其他项目模版 可以参考 一个标准模版的[编写示范](https://github.com/ModelMakerPro/model-maker-pro/blob/master/src/renderer/config/default-row/laravel.js)提交你们的模版 
 等待你们发掘
 
 ## 开发技术栈: 
@@ -33,7 +33,7 @@
 ## Build Setup
 ``` bash
 # clone this rep
-git clone https://github.com/deboyblog/model-maker-pro.git
+git clone https://github.com/ModelMakerPro/model-maker-pro.git
 
 # install dependencies
 npm install 
