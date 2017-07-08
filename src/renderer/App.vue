@@ -1,6 +1,6 @@
 <template>
     <div class="layout" >
-        <Row type="flex" @.19="save">
+        <Row type="flex">
             <i-col span="4" class="layout-menu-left" :style="fullHeight">
                 <app-slider></app-slider>
             </i-col>
