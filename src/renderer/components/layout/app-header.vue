@@ -1,5 +1,6 @@
 <template>
     <div class="header">
+        <Button type="primary" @click.native="importFormSQL">从数据库导入</Button>
         <Button type="primary" @click="showModal = true">新增项目</Button>
         <Button type="error" v-show="projectIndex!==null && projectIndex!==''" @click="showDeleteConfirm = true">
             删除当前项目
@@ -35,7 +36,7 @@
                 <FormItem prop="type" label="项目类型">
                     <Select v-model="project.type" placeholder="请选择项目类型" style="width: 100%">
                         <template v-for="type in projectTypes">
-                            <Option :value="type" >{{type}}</Option>
+                            <Option :value="type">{{type}}</Option>
                         </template>
                     </Select>
                 </FormItem>
@@ -77,8 +78,12 @@
 <script type="text/ecmascript-6">
   import { mapGetters, mapActions } from 'vuex'
   import * as types from '../../vuex/mutation-types'
+
   const defaultRows = require('@/config/default-row').default
-  export default{
+  import * as SQLHelper from '../../services/sql'
+  import { openDialog } from '../../utils/electron-helper'
+
+  export default {
     data () {
       return {
         showModal: false,
@@ -88,10 +93,10 @@
         },
         projectRule: {
           name: [
-            { required: true, message: '请填写项目名', trigger: 'blur' }
+            {required: true, message: '请填写项目名', trigger: 'blur'}
           ],
           type: [
-            { required: true, message: '请选择项目类型', trigger: 'change' }
+            {required: true, message: '请选择项目类型', trigger: 'change'}
           ]
         },
         showDeleteConfirm: false,
@@ -109,6 +114,13 @@
       ...mapGetters(['projectIndex'])
     },
     methods: {
+      importFormSQL () {
+        openDialog((res) => {
+          if (res && res.length > 0) {
+            SQLHelper.transform(res[0])
+          }
+        })
+      },
       ...mapActions(['showNotice']),
       confirmAdd () {
         if (this.project.name && this.project.type) {

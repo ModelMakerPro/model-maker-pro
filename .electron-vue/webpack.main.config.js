@@ -22,7 +22,7 @@ let mainConfig = {
       },
       {
         test: /\.js$/,
-        use: 'unlazy-loader'
+        use: ['unlazy-loader']
       },
       {
         test: /\.json$/,
@@ -52,7 +52,7 @@ let mainConfig = {
   ],
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.esm.js'
     },
     extensions: ['.js', '.json', '.node']
   },
