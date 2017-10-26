@@ -117,7 +117,21 @@
       importFormSQL () {
         openDialog((res) => {
           if (res && res.length > 0) {
-            SQLHelper.transform(res[0])
+            let tables = SQLHelper.transform(res[0])
+            if (tables && tables.length > 0) {
+              this.$store.commit(types.ADD_PROJECT, {
+                name: 'tx',
+                type: 'springboot'
+              })
+              this.$store.commit(types.UPDATE_SELECT_INDEX, this.$store.getters.projectList.length - 1)
+              for (let index = 0, len = tables.length; index < len; index++) {
+                let table = tables[index]
+                this.$store.commit(types.ADD_PROJECT_TABLE, table)
+              }
+              this.$Message.info('新建项目成功')
+            } else {
+              this.$Message.info('未检测到项目 Model 文件')
+            }
           }
         })
       },

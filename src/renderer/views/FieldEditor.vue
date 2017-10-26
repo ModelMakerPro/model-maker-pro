@@ -79,10 +79,10 @@
                     </td>
                     <td colspan="1">
                         <template v-if="index === onEditIndex">
-                            <Input v-model="item.customFilter" placeholder="0:保密;1:男;2:女"></Input>
+                            <Input v-model="item.filter" placeholder="0:保密;1:男;2:女"></Input>
                         </template>
                         <template v-else>
-                            {{item.customFilter}}
+                            {{item.filter}}
                         </template>
                     </td>
                     <td colspan="1" style="padding: 0 5px;">

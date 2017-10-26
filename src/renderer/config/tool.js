@@ -75,8 +75,8 @@ let setObjectPropToKeyValue = (field) => {
 }
 let dealWithFields = (field) => {
   field = setObjectPropToKeyValue(field)
-  if (field.customFilter) {
-    field.customFilter = splitToArray(field.customFilter)
+  if (field.filter) {
+    field.filter = splitToArray(field.filter)
   }
   return field
 }

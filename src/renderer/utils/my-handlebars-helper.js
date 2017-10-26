@@ -1,6 +1,7 @@
 /**
  * Created by Deboy on 2017/4/24.
  */
+let javascriptStringify = require('javascript-stringify')
 let hbs = require('handlebars')
 hbs.registerHelper('expression', function () {
   let exps = []
@@ -43,4 +44,11 @@ hbs.registerHelper('json', function (obj, withSpace) {
   } catch (e) {
     return null
   }
+})
+hbs.registerHelper('jsToStr', function (tables) {
+  tables.forEach(table => {
+    delete table.db
+    delete table.springBoot
+  })
+  return javascriptStringify(tables, null, 2)
 })
