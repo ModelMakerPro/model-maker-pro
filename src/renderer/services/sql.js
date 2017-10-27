@@ -57,6 +57,7 @@ export const transform = (modelPath = '', projectType = 'springboot') => {
             fields.push(Object.assign({}, defaultRows[projectType], {
               title: getTitle(field.comment),
               field: fieldKey,
+              displayField: fieldKey,
               filter: getFilter(field.comment),
               xtype: getType(field.type, field.comment)
             }))
