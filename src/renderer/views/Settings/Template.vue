@@ -3,22 +3,22 @@
         <Form :model="settings" v-if="settings" label-position="top">
             <Form-item label="模版存放文件夹">
                 <Row>
-                    <Col :span="20">
+                    <i-col :span="20">
                     <Input :value="settings.dir" disabled></Input>
-                    </Col>
-                    <Col :span="4">
+                    </i-col>
+                    <i-col :span="4">
                     <Button @click="choseTemplate" style="width: 100%" type="primary">更改</Button>
-                    </Col>
+                    </i-col>
                 </Row>
             </Form-item>
         </Form>
         <Row style="margin-bottom: 10px">
-            <Col :span="10" style="line-height: 30px;">
+            <i-col :span="10" style="line-height: 30px;">
             <p>模版列表(任何数据异常 请点击右侧 同步模版)</p>
-            </Col>
-            <Col :span="14" style="line-height: 30px;text-align: right">
+            </i-col>
+            <i-col :span="14" style="line-height: 30px;text-align: right">
             <Button @click="syncTpl" type="success">同步模版</Button>
-            </Col>
+            </i-col>
         </Row>
         <div class="table-area">
             <table v-if="settings && settings.list">
@@ -92,7 +92,7 @@
 </style>
 <script type="text/ecmascript-6">
   import { openDialog } from '@/utils/electron-helper'
-  import * as types from '@/vuex/mutation-types'
+  import * as types from '@/store/mutation-types'
   import _ from 'lodash'
   export default{
     data () {

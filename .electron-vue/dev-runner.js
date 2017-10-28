@@ -2,8 +2,8 @@
 
 const chalk = require('chalk')
 const electron = require('electron')
-const ora = require('ora')
 const path = require('path')
+const { say } = require('cfonts')
 const { spawn } = require('child_process')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
@@ -12,26 +12,42 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
 
+let electronProcess = null
+let manualRestart = false
 let hotMiddleware
+
+function logStats (proc, data) {
+  let log = ''
+
+  log += chalk.yellow.bold(`┏ ${proc} Process ${new Array((19 - proc.length) + 1).join('-')}`)
+  log += '\n\n'
+
+  if (typeof data === 'object') {
+    data.toString({
+      colors: true,
+      chunks: false
+    }).split(/\r?\n/).forEach(line => {
+      log += '  ' + line + '\n'
+    })
+  } else {
+    log += `  ${data}\n`
+  }
+
+  log += '\n' + chalk.yellow.bold(`┗ ${new Array(28 + 1).join('-')}`) + '\n'
+
+  console.log(log)
+}
 
 function startRenderer () {
   return new Promise((resolve, reject) => {
-    let rendererConfig = require('./webpack.renderer.config')
-
     rendererConfig.entry.renderer = [path.join(__dirname, 'dev-client')].concat(rendererConfig.entry.renderer)
 
     const compiler = webpack(rendererConfig)
-    hotMiddleware = webpackHotMiddleware(compiler, {
-      // log: (msg) => {
-      //   let fn = console.log.bind(console)
-      //   let args = [].slice.call(arguments)
-      //   args.unshift('\n\n' + chalk.bgBlue.white('  Begin Renderer Process  ') + '\n')
-      //   if (msg) args.push(msg)
-      //   args.push('\n' + chalk.bgBlue.white('  End Renderer Process  ') + '\n')
-      //   return console.log.apply(console, args)
-      // }
-      log: false
+    hotMiddleware = webpackHotMiddleware(compiler, { 
+      log: false, 
+      heartbeat: 2500 
     })
+
     compiler.plugin('compilation', compilation => {
       compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
         hotMiddleware.publish({ action: 'reload' })
@@ -39,15 +55,18 @@ function startRenderer () {
       })
     })
 
+    compiler.plugin('done', stats => {
+      logStats('Renderer', stats)
+    })
+
     const server = new WebpackDevServer(
       compiler,
       {
-        contentBase: path.join(__dirname, '../dist/static'),
+        contentBase: path.join(__dirname, '../'),
         quiet: true,
-        stats: { colors: true },
         setup (app, ctx) {
           app.use(hotMiddleware)
-          ctx.middleware.waitUntilValid((a) => {
+          ctx.middleware.waitUntilValid(() => {
             resolve()
           })
         }
@@ -60,10 +79,15 @@ function startRenderer () {
 
 function startMain () {
   return new Promise((resolve, reject) => {
-    let mainConfig = require('./webpack.main.config')
     mainConfig.entry.main = [path.join(__dirname, '../src/main/index.dev.js')].concat(mainConfig.entry.main)
 
     const compiler = webpack(mainConfig)
+
+    compiler.plugin('watch-run', (compilation, done) => {
+      logStats('Main', chalk.white.bold('compiling...'))
+      hotMiddleware.publish({ action: 'compiling' })
+      done()
+    })
 
     compiler.watch({}, (err, stats) => {
       if (err) {
@@ -71,19 +95,17 @@ function startMain () {
         return
       }
 
-      let log = '\n' + chalk.bgMagenta.white('  Begin Main Process  ') + '\n\n'
-      stats.toString({
-        colors: require('supports-color')
-      }).split(/\r?\n/).forEach(line => {
-        log += '  ' + line + '\n'
-      })
-      log += '\n' + chalk.bgMagenta.white('  End Main Process  ') + '\n'
-
-      console.log(log)
+      logStats('Main', stats)
 
       if (electronProcess && electronProcess.kill) {
-        electronProcess.kill()
+        manualRestart = true
+        process.kill(electronProcess.pid)
+        electronProcess = null
         startElectron()
+
+        setTimeout(() => {
+          manualRestart = false
+        }, 5000)
       }
 
       resolve()
@@ -91,30 +113,61 @@ function startMain () {
   })
 }
 
-let electronProcess = null
-function startElectron() {
-  electronProcess = spawn(electron, [path.join(__dirname, '../dist/electron/main.js')])
+function startElectron () {
+  electronProcess = spawn(electron, ['--inspect=5858', path.join(__dirname, '../dist/electron/main.js')])
+
   electronProcess.stdout.on('data', data => {
-    if (Array.from(data).length > 0)
-      console.log(chalk.black.bgBlue(' ELECTRON ') + '  ' + data.toString().trim())
+    electronLog(data, 'blue')
+  })
+  electronProcess.stderr.on('data', data => {
+    electronLog(data, 'red')
   })
 
-  electronProcess.on('exit', (code, signal) => {
-    if (signal !== 'SIGTERM') process.exit()
+  electronProcess.on('close', () => {
+    if (!manualRestart) process.exit()
   })
 }
 
-function init () {
-  const spinner = ora({
-    spinner: 'triangle',
-    text: chalk.cyan('getting ready')
+function electronLog (data, color) {
+  let log = ''
+  data = data.toString().split(/\r?\n/)
+  data.forEach(line => {
+    log += `  ${line}\n`
   })
+  if (/[0-9A-z]+/.test(log)) {
+    console.log(
+      chalk[color].bold('┏ Electron -------------------') +
+      '\n\n' +
+      log +
+      chalk[color].bold('┗ ----------------------------') +
+      '\n'
+    )
+  }
+}
 
-  spinner.start()
+function greeting () {
+  const cols = process.stdout.columns
+  let text = ''
+
+  if (cols > 104) text = 'electron-vue'
+  else if (cols > 76) text = 'electron-|vue'
+  else text = false
+
+  if (text) {
+    say(text, {
+      colors: ['yellow'],
+      font: 'simple3d',
+      space: false
+    })
+  } else console.log(chalk.yellow.bold('\n  electron-vue'))
+  console.log(chalk.blue('  getting ready...') + '\n')
+}
+
+function init () {
+  greeting()
 
   Promise.all([startRenderer(), startMain()])
     .then(() => {
-      spinner.stop()
       startElectron()
     })
     .catch(err => {

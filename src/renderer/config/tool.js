@@ -3,6 +3,7 @@
  */
 import defaultRow from './default-row'
 import _ from 'lodash'
+
 /**
  * 根据类型 来合并某个字段 并返回合并后的字段列表
  * @param type

@@ -3,12 +3,12 @@
         <Modal v-model="showModel" title="选项配置" @on-ok="()=>{showModel = false}" @on-cancel="()=>{showModel = false}">
             <Row>
                 <template v-for="(value, key) in filter">
-                    <Col>
+                    <i-col>
                         <Input :value="value" disabled>
-                    </Col>
-                    <Col>
+                    </i-col>
+                    <i-col>
                         <Input :value="key" disabled>
-                    </Col>
+                    </i-col>
                 </template>
             </Row>
         </Modal>

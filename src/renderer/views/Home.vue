@@ -17,17 +17,16 @@
             <template v-for="update in updateLogs">
                 <Timeline-item :color="update.tips.color">
                     <p class="time">{{update.version}} <span class="date-label">{{update.date}}</span></p>
-                    <p class="content">
-                    <div class="tips">{{update.tips.desc}}</div>
-                    <ol>
-                        <li v-for="(log, index) in update.logs">
-                            {{index + 1}}. {{log}}
-                        </li>
-                    </ol>
-                    </p>
+                    <div class="content">
+                        <div class="tips">{{update.tips.desc}}</div>
+                        <ol>
+                            <li v-for="(log, index) in update.logs">
+                                {{index + 1}}. {{log}}
+                            </li>
+                        </ol>
+                    </div>
                 </Timeline-item>
             </template>
-
         </Timeline>
     </div>
 </template>
@@ -43,9 +42,9 @@
         color: rgba(255, 000, 000, 0.6);
     }
 </style>
-<script type="text/ecmascript-6">
-  const {app} = require('electron').remote
-  export default{
+<script>
+  export default {
+    name: 'Home',
     data () {
       return {
         updateLogs: [
@@ -189,7 +188,7 @@
     },
     computed: {
       version () {
-        return app.getVersion()
+        return this.$electron.remote.app.getVersion()
       }
     }
   }

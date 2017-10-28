@@ -18,10 +18,11 @@
 <style lang="less" scoped>
 </style>
 <script type="text/ecmascript-6">
-  const open = require('open')
-  import CodeBlock from '@/components/code-block'
+  import CodeBlock from '../components/code-block'
   import helpers from '../config/helper'
-  export default{
+  const open = require('open')
+
+  export default {
     components: {
       CodeBlock
     },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row :style="contentWarpHeight">
-            <Col :span="6" class="slider" :style="contentWarpHeight">
+            <i-col :span="6" class="slider" :style="contentWarpHeight">
             <Form :model="form" label-position="top">
                 <h3 style="margin: 10px 0">导出配置</h3>
                 <!--导出配置-->
@@ -53,13 +53,13 @@
                     </ul>
                 </div>
             </Form>
-            </Col>
-            <Col :span="18" style="padding: 0 10px" :style="contentWarpHeight">
+            </i-col>
+            <i-col :span="18" style="padding: 0 10px" :style="contentWarpHeight">
             <pre v-if="contentString" :style="contentWarpHeight" class="code"><code id="create-code"
                                                                                     class="html"
                                                                                     :class="['lang-' + lang]"
                                                                                     v-text="contentString"></code></pre>
-            </Col>
+            </i-col>
         </Row>
         <Modal v-model="showModelPreview" :width="900" :styles="{top: '0px'}">
             <div class="model-preview-warpper" :style="{height: screenHeight}">
@@ -120,9 +120,10 @@
     }
 </style>
 <script type="text/ecmascript-6">
-  const highlightjs = require('highlight.js')
   import { mapGetters } from 'vuex'
-  export default{
+
+  const highlightjs = require('highlight.js')
+  export default {
     data () {
       return {
         form: {

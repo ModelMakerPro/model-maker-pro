@@ -3,20 +3,20 @@
         <Menu :active-name="(activeTable && activeTable.id) || $route.query.tableId" @on-select="onTableSelect"
               theme="dark" width="auto">
             <Row type="flex" justify="center" class="code-row-bg">
-                <Col span="24" style="text-align: center">
+                <i-col span="24" style="text-align: center">
                 <div class="logo-warp">
                     <router-link to="/">Model Maker Pro</router-link>
                 </div>
-                </Col>
-                <Col span="24" style="text-align: center">
+                </i-col>
+                <i-col span="24" style="text-align: center">
                 <Select class="select-warp" v-model="projectIndex"
                         :not-found-text="projectList.length === 0 ? '请先新增或导入项目' : '请选择项目'">
                     <Option v-if="projectList.length === 0" value="" :key="-1">当前没有项目可用</Option>
                     <Option v-for="(project, index) in projectList" :value="index" :key="index">{{ project.name }}
                     </Option>
                 </Select>
-                </Col>
-                <Col span="24" style="text-align: center;">
+                </i-col>
+                <i-col span="24" style="text-align: center;">
                 <Row>
                     <i-col :span="12">
                         <Button-group class="btn-group-warp">
@@ -49,7 +49,7 @@
                         </Button-group>
                     </i-col>
                 </Row>
-                </Col>
+                </i-col>
             </Row>
             <template v-for="(table, index) in projectTables">
                 <Menu-item :name="table.id">
@@ -89,6 +89,7 @@
 <style lang="less">
     #slider {
         display: block;
+        width: 100%;
         height: 100%;
         overflow: auto;
         .logo-warp, .select-warp, .btn-group-warp {
@@ -122,9 +123,9 @@
 </style>
 <script type="text/ecmascript-6">
   import { save } from '../../utils/localstorage'
-  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../vuex/modules/store-keys'
+  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../store/store-keys'
   import { mapGetters } from 'vuex'
-  import * as types from '../../vuex/mutation-types'
+  import * as types from '../../store/mutation-types'
   import ProjectConfig from './project-config.vue'
   import TableConfig from './table-config.vue'
   export default{

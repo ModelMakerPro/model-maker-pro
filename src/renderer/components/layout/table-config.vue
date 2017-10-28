@@ -12,21 +12,21 @@
             <p>表属性</p>
             <template v-for="(prop, index) in table.props">
                 <Row type="flex" :gutter="8" style="margin-top: 10px;" justify="end" class="code-row-bg">
-                    <Col :span="2" style="line-height: 30px; text-align: center">
+                    <i-col :span="2" style="line-height: 30px; text-align: center">
                     属性 :
-                    </Col>
-                    <Col :span="8">
+                    </i-col>
+                    <i-col :span="8">
                     <Input v-model="prop.key" placeholder="key"></Input>
-                    </Col>
-                    <Col :span="2" style="line-height: 30px; text-align: center">
+                    </i-col>
+                    <i-col :span="2" style="line-height: 30px; text-align: center">
                     值:
-                    </Col>
-                    <Col :span="8">
+                    </i-col>
+                    <i-col :span="8">
                     <Input v-model="prop.value" placeholder="value"></Input>
-                    </Col>
-                    <Col :span="4" style="text-align: right">
+                    </i-col>
+                    <i-col :span="4" style="text-align: right">
                         <Button type="error" @click="props.splice(index, 1)">删除</Button>
-                    </Col>
+                    </i-col>
                 </Row>
             </template>
             <div style="text-align: right">
@@ -38,7 +38,7 @@
 <style scoped lang="less" rel="stylesheet/less">
 </style>
 <script type="text/ecmascript-6">
-  import * as types from '../../vuex/mutation-types'
+  import * as types from '../../store/mutation-types'
   export default{
     props: ['value'],
     data () {

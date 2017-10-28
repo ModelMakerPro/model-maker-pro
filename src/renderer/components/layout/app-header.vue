@@ -77,11 +77,11 @@
 </style>
 <script type="text/ecmascript-6">
   import { mapGetters, mapActions } from 'vuex'
-  import * as types from '../../vuex/mutation-types'
-
-  const defaultRows = require('@/config/default-row').default
+  import * as types from '../../store/mutation-types'
   import * as SQLHelper from '../../services/sql'
   import { openDialog } from '../../utils/electron-helper'
+
+  const defaultRows = require('@/config/default-row').default
 
   export default {
     data () {
@@ -119,6 +119,7 @@
           if (res && res.length > 0) {
             let tables = SQLHelper.transform(res[0])
             if (tables && tables.length > 0) {
+              // TODO 项目名称 类型等应该由用户在导入的时候设置
               this.$store.commit(types.ADD_PROJECT, {
                 name: 'tx',
                 type: 'springboot'

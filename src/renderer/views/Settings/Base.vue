@@ -3,12 +3,12 @@
         <Form :model="settings" label-position="top">
             <Form-item label="工作空间">
                 <Row>
-                    <Col :span="20">
+                    <i-col :span="20">
                     <Input :value="settings.workspace" disabled></Input>
-                    </Col>
-                    <Col :span="4">
+                    </i-col>
+                    <i-col :span="4">
                     <Button @click="choseWorkspace" style="width: 100%" type="primary">更改</Button>
-                    </Col>
+                    </i-col>
                 </Row>
             </Form-item>
 
@@ -22,11 +22,12 @@
 <style lang="less" scoped>
 </style>
 <script type="text/ecmascript-6">
-  import { openDialog } from '@/utils/electron-helper'
-  import * as types from '@/vuex/mutation-types'
-  import * as keys from '@/vuex/modules/store-keys'
-  import { save } from '@/utils/localstorage'
-  export default{
+  import { openDialog } from '../../utils/electron-helper'
+  import * as types from '../../store/mutation-types'
+  import * as keys from '../../store/store-keys'
+  import { save } from '../../utils/localstorage'
+
+  export default {
     data () {
       return {
         log: {

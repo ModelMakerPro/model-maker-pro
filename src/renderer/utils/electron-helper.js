@@ -1,5 +1,6 @@
 /**
  * Created by Deboy on 2017/4/2.
+ * TODO 重新规划插件目录 重新封装插件
  */
 const {dialog} = require('electron').remote
 const {shell} = require('electron')

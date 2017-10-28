@@ -4,7 +4,7 @@
             <h4>日志记录</h4>
             <Tabs value="all">
                 <Tab-pane label="全部" name="all">
-                    <Collapse v-model="log.all">
+                    <i-collapse v-model="log.all">
                         <template v-for="(log, index) in getLogs()">
                             <Panel :name="'all_' + index">
                                 时间： {{log.time}} 类型: {{log.type}}
@@ -14,10 +14,10 @@
                                 </p>
                             </Panel>
                         </template>
-                    </Collapse>
+                    </i-collapse>
                 </Tab-pane>
                 <Tab-pane label="成功" name="success">
-                    <Collapse v-model="log.success">
+                    <i-collapse v-model="log.success">
                         <template v-for="(log, index) in getLogs('success')">
                             <Panel :name="'success_' + index">
                                 时间： {{log.time}} 类型: {{log.type}}
@@ -27,10 +27,10 @@
                                 </p>
                             </Panel>
                         </template>
-                    </Collapse>
+                    </i-collapse>
                 </Tab-pane>
                 <Tab-pane label="通知" name="info">
-                    <Collapse v-model="log.info">
+                    <i-collapse v-model="log.info">
                         <template v-for="(log, index) in getLogs('info')">
                             <Panel :name="'info_' + index">
                                 时间： {{log.time}} 类型: {{log.type}}
@@ -40,10 +40,10 @@
                                 </p>
                             </Panel>
                         </template>
-                    </Collapse>
+                    </i-collapse>
                 </Tab-pane>
                 <Tab-pane label="警告" name="warning">
-                    <Collapse v-model="log.warning">
+                    <i-collapse v-model="log.warning">
                         <template v-for="(log, index) in getLogs('warning')">
                             <Panel :name="'warning_' + index">
                                 时间： {{log.time}} 类型: {{log.type}}
@@ -53,10 +53,10 @@
                                 </p>
                             </Panel>
                         </template>
-                    </Collapse>
+                    </i-collapse>
                 </Tab-pane>
                 <Tab-pane label="错误" name="error">
-                    <Collapse v-model="log.error">
+                    <i-collapse v-model="log.error">
                         <template v-for="(log, index) in getLogs('error')">
                             <Panel :name="'error_' + index">
                                 时间： {{log.time}} 类型: {{log.type}}
@@ -66,29 +66,30 @@
                                 </p>
                             </Panel>
                         </template>
-                    </Collapse>
+                    </i-collapse>
                 </Tab-pane>
             </Tabs>
         </Row>
         <Row type="flex" justify="end" style="margin-top: 10px; line-height: 50px">
-            <Col style="margin-right: 20px">
+            <i-col style="margin-right: 20px">
             <div style="font-size: 16px;line-height: 40px;display: inline-block"> 超过100条自动清理？ </div>
             <i-switch v-model="settings.autoClearLogs"></i-switch>
-            </Col>
-            <Col>
+            </i-col>
+            <i-col>
             <Button type="error" @click="settings.logs=[]">清空日志记录</Button>
-            </Col>
+            </i-col>
         </Row>
     </div>
 </template>
 <style scoped lang="less" rel="stylesheet/less">
 </style>
 <script type="text/ecmascript-6">
-  import { openDialog } from '@/utils/electron-helper'
-  import * as types from '@/vuex/mutation-types'
-  import * as keys from '@/vuex/modules/store-keys'
-  import { save } from '@/utils/localstorage'
-  export default{
+  import { openDialog } from '../../utils/electron-helper'
+  import * as types from '../../store/mutation-types'
+  import * as keys from '../../store/store-keys'
+  import { save } from '../../utils/localstorage'
+
+  export default {
     data () {
       return {
         log: {
@@ -121,12 +122,11 @@
     methods: {
       getLogs (type) {
         let allLogs = this.settings.logs || []
-        let logs = allLogs
         if (!type) {
-          return logs
+          return allLogs
         }
         let list = []
-        logs.forEach((log) => {
+        allLogs.forEach((log) => {
           if (log.type === type) {
             list.push(log)
           }

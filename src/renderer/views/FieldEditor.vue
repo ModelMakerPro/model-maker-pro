@@ -2,7 +2,7 @@
     <div>
         <div class="tips">请注意 自动保存功能已去除 切换表编辑之前记得按下 Ctrl+S 或 Ctrl+Shift+S 保存 否则会丢失数据 返回上一步按下：Ctrl+Z</div>
         <Row type="flex">
-            <Col span="18" class="table-area" :style="contentWarpHeight">
+            <i-col span="18" class="table-area" :style="contentWarpHeight">
             <table>
                 <thead>
                 <tr>
@@ -22,7 +22,7 @@
                 <tbody>
                 <tr :class="{'on-selected': index === onEditIndex}" v-for="(item, index) in fields"
                     @click="changeRow(index)">
-                    <td colspan="1" style="text-align: center;width: 50px">
+                    <td i-colspan="1" style="text-align: center;width: 50px">
                         <span style="margin-right: 10px;cursor: pointer" @click.prevent="movePosition('down', index)">
                             <Icon size="20" type="arrow-down-c"></Icon>
                         </span>
@@ -30,7 +30,7 @@
                             <Icon size="20" type="arrow-up-c"></Icon>
                         </span>
                     </td>
-                    <td colspan="1">
+                    <td i-colspan="1">
                         <template v-if="index === onEditIndex">
                             <Input v-model="item.title"></Input>
                         </template>
@@ -38,7 +38,7 @@
                             {{item.title}}
                         </template>
                     </td>
-                    <td colspan="1">
+                    <td i-colspan="1">
                         <template v-if="index === onEditIndex">
                             <Input v-model="item.field"></Input>
                         </template>
@@ -46,7 +46,7 @@
                             {{item.field}}
                         </template>
                     </td>
-                    <td colspan="1" style="width: 140px">
+                    <td i-colspan="1" style="width: 140px">
                         <template v-if="index === onEditIndex">
                             <Select v-model="item.xtype">
                                 <Option v-for="(type, index2) in typeList" :value="type.value" :key="index2">
@@ -58,7 +58,7 @@
                             {{getRelValue(item.xtype, typeList, 'value', 'label')}}
                         </template>
                     </td>
-                    <td colspan="1" style="width: 100px">
+                    <td i-colspan="1" style="width: 100px">
                         <template v-if="index === onEditIndex">
                             <Select v-model="item.relTable">
                                 <Option v-for="(tab, index3) in tableList" :value="tab.id" :key="index3">{{ tab.name }}
@@ -69,7 +69,7 @@
                             {{getRelValue(item.relTable, tableList, 'id', 'name')}}
                         </template>
                     </td>
-                    <td colspan="1">
+                    <td i-colspan="1">
                         <template v-if="index === onEditIndex">
                             <Input v-model="item.displayField" placeholder="可以用js对象的写法"></Input>
                         </template>
@@ -77,7 +77,7 @@
                             {{item.displayField}}
                         </template>
                     </td>
-                    <td colspan="1">
+                    <td i-colspan="1">
                         <template v-if="index === onEditIndex">
                             <Input v-model="item.filter" placeholder="0:保密;1:男;2:女"></Input>
                         </template>
@@ -85,23 +85,23 @@
                             {{item.filter}}
                         </template>
                     </td>
-                    <td colspan="1" style="padding: 0 5px;">
+                    <td i-colspan="1" style="padding: 0 5px;">
                         <i-switch v-model="item.sort"></i-switch>
                     </td>
-                    <td colspan="1" style="padding: 0 5px;">
+                    <td i-colspan="1" style="padding: 0 5px;">
                         <i-switch v-model="item.isShow"></i-switch>
                     </td>
-                    <td colspan="1" style="padding: 0 5px;">
+                    <td i-colspan="1" style="padding: 0 5px;">
                         <i-switch v-model="item.edit"></i-switch>
                     </td>
-                    <td colspan="1" style="padding: 0 5px;">
+                    <td i-colspan="1" style="padding: 0 5px;">
                         <i-switch v-model="item.required"></i-switch>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            </Col>
-            <Col span="6" :style="contentWarpHeight">
+            </i-col>
+            <i-col span="6" :style="contentWarpHeight">
             <template v-if="onEditIndex!==null && onEditRow && attrs">
                 <template v-for="(attr, attrKey) in attrs">
                     <h3 style="padding: 10px;">{{attrKey}} 属性
@@ -116,17 +116,17 @@
                     </template>
                 </template>
             </template>
-            </Col>
+            </i-col>
         </Row>
         <Row>
-            <Col :span="4">
+            <i-col :span="4">
             <Button type="primary" @click="addRow">添加字段</Button>
-            </Col>
-            <Col :span="14" style="text-align: right;">
+            </i-col>
+            <i-col :span="14" style="text-align: right;">
             <Button type="error" v-show="onEditIndex!==null && onEditIndex!==''" @click="removeRow">
                 删除选中行({{onEditRow && onEditRow.title}})
             </Button>
-            </Col>
+            </i-col>
         </Row>
         <props-add v-model="propsAdd.show" @on-confirm="insertProps" :name="propsAdd.type"></props-add>
     </div>
@@ -170,11 +170,11 @@
     }
 </style>
 <script type="text/ecmascript-6">
-  import * as types from '../vuex/mutation-types'
+  import * as types from '../store/mutation-types'
   import { getDefaultRow } from '../config/tool'
-  import MultiTypeInput from 'components/multi-type-input'
+  import MultiTypeInput from '../components/multi-type-input'
   import { clone, moveDown, moveUp, insert } from '../utils/helper'
-  import PropsAdd from 'components/props-add'
+  import PropsAdd from '../components/props-add'
   import DropDownOptionKeys from '../config/dropdown-select-config'
   export default{
     components: {

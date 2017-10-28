@@ -4,6 +4,7 @@
  */
 'use strict'
 let Handlebars = require('handlebars')
+
 /**
  * 不翻译被包裹的内容
  * @param {Object} options
@@ -59,6 +60,7 @@ function extname (str) {
   }
   return str.substr(str.lastIndexOf('.')).substr(1)
 }
+
 Handlebars.registerHelper('extname', extname)
 
 /**
@@ -123,6 +125,7 @@ function hyphenToUnderline (str) {
   }
   return str.split(/-+/).join('_')
 }
+
 Handlebars.registerHelper('hyphenToUnderline', hyphenToUnderline)
 
 /**
@@ -142,6 +145,7 @@ function hyphenToCamel (str) {
     return x.charAt(0).toUpperCase() + x.slice(1)
   }).join('')
 }
+
 Handlebars.registerHelper('hyphenToCamel', hyphenToCamel)
 
 /**
@@ -167,6 +171,7 @@ function camelToHyphen (str) {
       return x.toLowerCase()
     }).join('-').replace(/-+/g, '-')
 }
+
 Handlebars.registerHelper('camelToHyphen', camelToHyphen)
 
 /**
@@ -187,6 +192,7 @@ function lowerFirst (str) {
   }
   return str.charAt(0).toLowerCase() + str.slice(1)
 }
+
 Handlebars.registerHelper('lowerFirst', lowerFirst)
 
 /**
@@ -226,6 +232,7 @@ function upperFirst (str) {
   }
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
 Handlebars.registerHelper('upperFirst', upperFirst)
 
 Handlebars.registerHelper('iosProperty', function (datatype, options) {

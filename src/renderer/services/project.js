@@ -1,6 +1,9 @@
 import { openDialog, openFileExplorer } from '../utils/electron-helper'
-import store from '../vuex/store'
-import * as types from '../vuex/mutation-types'
+import store from '../store'
+import * as types from '../store/mutation-types'
+import * as customHelper from '../utils/helper'
+import * as tools from '../config/tool'
+
 const fs = require('fs')
 const path = require('path')
 require('../utils/handlebars-helper')
@@ -9,17 +12,17 @@ let Handlebars = require('handlebars')
 require('handlebars-helpers')({
   handlebars: Handlebars
 })
-import * as customHelper from '../utils/helper'
-import * as tools from '../config/tool'
+
 const projectConfPostfix = '.project.json'
+
 /**
  * 写入本地文件
  * @param fullpath
  * @param data
  * @param needOpenDir
- * @param callback
+ * @param callbackFn
  */
-function writeToLocalFile (fullpath, data, needOpenDir = true, callback) {
+function writeToLocalFile (fullpath, data, needOpenDir = true, callbackFn) {
   fs.open(fullpath, 'a', (err, fd) => {
     if (err) {
       store.dispatch('showNotice', {type: 'error', title: '导出项目失败', desc: err})
@@ -31,8 +34,8 @@ function writeToLocalFile (fullpath, data, needOpenDir = true, callback) {
         store.dispatch('showNotice', {type: 'error', title: '写入文件失败', desc: err})
         return
       }
-      if (typeof callback === 'function') {
-        callback()
+      if (typeof callbackFn === 'function') {
+        callbackFn()
       } else {
         store.dispatch('showNotice', '导出成功')
       }
@@ -43,6 +46,7 @@ function writeToLocalFile (fullpath, data, needOpenDir = true, callback) {
     fs.close(fd)
   })
 }
+
 export function install (Vue) {
   Vue.prototype.$project = {
     // 读取模版文件夹下所有的模版
@@ -159,7 +163,7 @@ export function install (Vue) {
                 store.dispatch('showNotice', {type: 'error', title: '导出项目失败', desc: err})
                 return
               }
-              let writeBuffer = new Buffer(JSON.stringify(project))
+              let writeBuffer = Buffer.from(JSON.stringify(project))
               let offset = 0
               let len = writeBuffer.length
               let filePostion = null
@@ -228,9 +232,9 @@ export function install (Vue) {
     /**
      * 将已存在的项目写入本地文件
      * @param projectList
-     * @param callback
+     * @param callbackFn function
      */
-    syncToLocalFile (projectList, callback) {
+    syncToLocalFile (projectList, callbackFn = () => {}) {
       let workspace = store.getters.workspace || null
       if (workspace && projectList.length > 0) {
         projectList.forEach((project, index) => {
@@ -241,7 +245,7 @@ export function install (Vue) {
               store.dispatch('showNotice', {type: 'error', title: '保存项目失败', desc: err})
               return
             }
-            let writeBuffer = new Buffer(JSON.stringify(project))
+            let writeBuffer = Buffer.from(JSON.stringify(project))
             let offset = 0
             let len = writeBuffer.length
             let filePostion = null
@@ -253,8 +257,8 @@ export function install (Vue) {
                 console.log('同步完成 项目文件大小:', readByte)
               }
               fs.close(fd, () => {
-                if (index === projectList.length - 1) {
-                  callback && callback(true)
+                if (index === projectList.length - 1 && typeof callbackFn === 'function') {
+                  callbackFn(true)
                 }
               })
             })
@@ -262,13 +266,13 @@ export function install (Vue) {
         })
       } else if (projectList.length === 0) {
         console.info('当前没有项目 快点新建啊')
-        if (typeof callback === 'function') {
-          callback(false)
+        if (typeof callbackFn === 'function') {
+          callbackFn(false)
         }
       } else {
         store.dispatch('showNotice', {type: 'error', title: '保存失败', desc: '请先点击右上角齿轮按钮设置工作空间 否则项目无法保存!'})
-        if (typeof callback === 'function') {
-          callback(false)
+        if (typeof callbackFn === 'function') {
+          callbackFn(false)
         }
       }
     },
@@ -288,19 +292,19 @@ export function install (Vue) {
      * 重命名项目
      * @param oldName
      * @param newName
-     * @param callback
+     * @param callbackFn
      */
-    reNameProject (oldName, newName, callback) {
+    reNameProject (oldName, newName, callbackFn) {
       const workspace = store.getters.workspace
       if (workspace) {
         let oldPath = path.resolve(workspace, oldName + projectConfPostfix)
         let newPath = path.resolve(workspace, newName + projectConfPostfix)
         if (fs.renameSync(oldPath, newPath)) {
-          callback && callback()
+          callbackFn && callbackFn()
         }
       } else {
         store.dispatch('showNotice', {type: 'error', title: '保存失败', desc: '请先点击右上角齿轮按钮设置工作空间 否则项目无法保存到本地!'})
-        callback && callback()
+        callbackFn && callbackFn()
       }
     }
   }

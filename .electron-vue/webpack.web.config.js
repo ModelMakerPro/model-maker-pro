@@ -3,22 +3,31 @@
 process.env.BABEL_ENV = 'web'
 
 const path = require('path')
-const settings = require('./config.js')
 const webpack = require('webpack')
 
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let webConfig = {
-  devtool: '#eval-source-map',
+  devtool: '#cheap-module-eval-source-map',
   entry: {
     web: path.join(__dirname, '../src/renderer/main.js')
   },
   module: {
     rules: [
+      {
+        test: /\.(js|vue)$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            formatter: require('eslint-friendly-formatter')
+          }
+        }
+      },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
@@ -37,18 +46,11 @@ let webConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.json$/,
-        use: 'json-loader'
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
           options: {
+            extractCSS: true,
             loaders: {
               sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
               scss: 'vue-style-loader!css-loader!sass-loader'
@@ -80,15 +82,15 @@ let webConfig = {
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),
-    new FriendlyErrorsPlugin({
-      clearConsole: false
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
-      nodeModules: process.env.NODE_ENV !== 'production'
-        ? path.resolve(__dirname, '../node_modules')
-        : false
+      minify: {
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true
+      },
+      nodeModules: false
     }),
     new webpack.DefinePlugin({
       'process.env.IS_WEB': 'true'
@@ -110,27 +112,6 @@ let webConfig = {
   target: 'web'
 }
 
-if (process.env.NODE_ENV !== 'production') {
-  /**
-   * Apply ESLint
-   */
-  if (settings.eslint) {
-    webConfig.module.rules.push(
-      {
-        test: /\.(js|vue)$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            formatter: require('eslint-friendly-formatter')
-          }
-        }
-      }
-    )
-  }
-}
-
 /**
  * Adjust webConfig for production settings
  */
@@ -138,10 +119,7 @@ if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = ''
 
   webConfig.plugins.push(
-    new BabiliWebpackPlugin({
-      removeConsole: true,
-      removeDebugger: true
-    }),
+    new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),

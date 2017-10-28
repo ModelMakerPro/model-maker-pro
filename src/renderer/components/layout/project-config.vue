@@ -9,22 +9,22 @@
             <p>项目属性</p>
             <template v-for="(prop, index) in project.props">
                 <Row type="flex" :gutter="8" style="margin-top: 10px;" justify="end" class="code-row-bg">
-                    <Col :span="2" style="line-height: 30px; text-align: center">
+                    <i-col :span="2" style="line-height: 30px; text-align: center">
                     属性 :
-                    </Col>
-                    <Col :span="8">
+                    </i-col>
+                    <i-col :span="8">
                     <Input v-model="prop.key" :disabled="!prop.editable" placeholder="key"></Input>
-                    </Col>
-                    <Col :span="2" style="line-height: 30px; text-align: center">
+                    </i-col>
+                    <i-col :span="2" style="line-height: 30px; text-align: center">
                     值:
-                    </Col>
-                    <Col :span="8">
+                    </i-col>
+                    <i-col :span="8">
                     <Input v-model="prop.value" :disabled="!prop.editable" placeholder="value"></Input>
-                    </Col>
-                    <Col :span="4" style="text-align: right">
+                    </i-col>
+                    <i-col :span="4" style="text-align: right">
                     <!--扩展字段才能删除-->
                     <Button type="error" @click="deleteProp(index)" v-show="prop.extend">删除</Button>
-                    </Col>
+                    </i-col>
                 </Row>
             </template>
             <div style="text-align: right">
@@ -36,7 +36,7 @@
 <style scoped lang="less" rel="stylesheet/less">
 </style>
 <script type="text/ecmascript-6">
-  import * as types from '../../vuex/mutation-types'
+  import * as types from '../../store/mutation-types'
   export default{
     props: ['value'],
     data () {

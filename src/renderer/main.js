@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import axios from 'axios'
-import Router from 'vue-router'
 import BaseMixin from './mixins/base'
 import App from './App'
-import routes from './routes'
-import store from './vuex/store'
+import router from './router'
+import store from './store'
 import iview from 'iview'
 import 'iview/dist/styles/iview.css'
 import { remote } from 'electron'
@@ -15,14 +14,10 @@ Vue.use(iview)
 Vue.mixin(BaseMixin)
 Vue.use(require('./services/project'))
 Vue.use(TreeView)
-Vue.http = Vue.prototype.$http = axios
-Vue.use(Router)
-Vue.config.debug = true
 
-const router = new Router({
-  scrollBehavior: () => ({ y: 0 }),
-  routes
-})
+Vue.http = Vue.prototype.$http = axios
+Vue.config.productionTip = false
+Vue.config.debug = true
 
 remote.globalShortcut.register('CommandOrControl+Shift+K', () => {
   remote.BrowserWindow.getFocusedWindow().webContents.openDevTools()

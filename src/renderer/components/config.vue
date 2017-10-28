@@ -4,12 +4,12 @@
             <Form :model="settings" label-position="top">
                 <Form-item label="工作空间">
                     <Row>
-                        <Col :span="20">
+                        <i-col :span="20">
                             <Input :value="settings.workspace" disabled></Input>
-                        </Col>
-                        <Col :span="4">
+                        </i-col>
+                        <i-col :span="4">
                             <Button @click="choseWorkspace" style="width: 100%" type="primary">更改</Button>
-                        </Col>
+                        </i-col>
                     </Row>
                 </Form-item>
                 <Form-item label="新建表格是否自动添加以下属性: id, createdAt, del, deletedAt">
@@ -20,7 +20,7 @@
                 <h4>日志记录</h4>
                 <Tabs value="all">
                     <Tab-pane label="全部" name="all">
-                        <Collapse v-model="log.all">
+                        <i-collapse v-model="log.all">
                             <Panel :name="'all_' + index" v-for="(log, index) in getLogs()">
                                 时间： {{log.time}} 类型: {{log.type}}
                                 <p slot="content">
@@ -28,10 +28,10 @@
                                 内容: {{log.desc || log.content}}
                                 </p>
                             </Panel>
-                        </Collapse>
+                        </i-collapse>
                     </Tab-pane>
                     <Tab-pane label="成功" name="success">
-                        <Collapse v-model="log.success">
+                        <i-collapse v-model="log.success">
                             <Panel :name="'success_' + index" v-for="(log, index) in getLogs('success')">
                                 时间： {{log.time}} 类型: {{log.type}}
                                 <p slot="content">
@@ -39,10 +39,10 @@
                                 内容: {{log.desc || log.content}}
                                 </p>
                             </Panel>
-                        </Collapse>
+                        </i-collapse>
                     </Tab-pane>
                     <Tab-pane label="通知" name="info">
-                        <Collapse v-model="log.info">
+                        <i-collapse v-model="log.info">
                             <Panel :name="'info_' + index" v-for="(log, index) in getLogs('info')">
                                 时间： {{log.time}} 类型: {{log.type}}
                                 <p slot="content">
@@ -50,10 +50,10 @@
                                 内容: {{log.desc || log.content}}
                                 </p>
                             </Panel>
-                        </Collapse>
+                        </i-collapse>
                     </Tab-pane>
                     <Tab-pane label="警告" name="warning">
-                        <Collapse v-model="log.warning">
+                        <i-collapse v-model="log.warning">
                             <Panel :name="'warning_' + index" v-for="(log, index) in getLogs('warning')">
                                 时间： {{log.time}} 类型: {{log.type}}
                                 <p slot="content">
@@ -61,10 +61,10 @@
                                 内容: {{log.desc || log.content}}
                                 </p>
                             </Panel>
-                        </Collapse>
+                        </i-collapse>
                     </Tab-pane>
                     <Tab-pane label="错误" name="error">
-                        <Collapse v-model="log.error">
+                        <i-collapse v-model="log.error">
                             <Panel :name="'error_' + index" v-for="(log, index) in getLogs('error')">
                                 时间： {{log.time}} 类型: {{log.type}}
                                 <p slot="content">
@@ -72,18 +72,18 @@
                                 内容: {{log.desc || log.content}}
                                 </p>
                             </Panel>
-                        </Collapse>
+                        </i-collapse>
                     </Tab-pane>
                 </Tabs>
             </Row>
             <Row type="flex" justify="end" style="margin-top: 10px; line-height: 50px">
-                <Col style="margin-right: 20px">
+                <i-col style="margin-right: 20px">
                 <div style="font-size: 16px;line-height: 40px;display: inline-block"> 超过100条自动清理？ </div>
                 <i-switch v-model="settings.autoClearLogs"></i-switch>
-                </Col>
-                <Col>
+                </i-col>
+                <i-col>
                 <Button type="error" @click="settings.logs=[]">清空日志记录</Button>
-                </Col>
+                </i-col>
             </Row>
         </Modal>
     </div>
@@ -92,8 +92,8 @@
 </style>
 <script type="text/ecmascript-6">
   import { openDialog } from '../utils/electron-helper'
-  import * as types from '../vuex/mutation-types'
-  import * as keys from '../vuex/modules/store-keys'
+  import * as types from '../store/mutation-types'
+  import * as keys from '../store/store-keys'
   import {save} from '../utils/localstorage'
   export default{
     props: {
@@ -158,7 +158,7 @@
             this.settings.workspace = res[0]
             // 更改配置的时候就要顺便同步项目
             this.$project.syncProject(true, res[0])
-//            this.$project.syncToLocalFile(this.$store.getters.projectList, res[0])
+          //            this.$project.syncToLocalFile(this.$store.getters.projectList, res[0])
           }
         })
       }
