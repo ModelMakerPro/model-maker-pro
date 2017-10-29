@@ -31,7 +31,7 @@
                     </Form-item>
                     <Form-item label="">
                         <Button style="width: 90px" @click="submit" type="info">
-                            导入
+                            提交
                         </Button>
                     </Form-item>
                     <p class="tips">
@@ -41,7 +41,10 @@
                         然后选择你Model存放的目录,导入相应的项目<br>
                         如果没有则属于新增项目,直接填写项目名称和类型即可提交创建项目
                         如果你不清楚怎么导入现有项目 <br>
-                        请查看此帮助文档: <router-link :to="{name: 'Helper', query:{id: 'how-to-create-project-form-existing-db'}}">如何为一个已存在的数据库创建项目</router-link>
+                        请查看此帮助文档:
+                        <router-link :to="{name: 'Helper', query:{id: 'how-to-create-project-form-existing-db'}}">
+                            如何为一个已存在的数据库创建项目
+                        </router-link>
                     </p>
                 </Form>
 
@@ -129,26 +132,24 @@
        * 确认新建项目
        */
       submit () {
-        if (this.tables && this.tables.length > 0) {
-          this.$refs.projectForm.validate((valid) => {
-            if (valid) {
-              this.$store.commit(types.ADD_PROJECT, Object.assign({}, this.project, {config: this.projectConfig}))
-              this.$store.commit(types.UPDATE_SELECT_INDEX, this.$store.getters.projectList.length - 1)
-              for (let index = 0, len = this.tables.length; index < len; index++) {
-                let table = this.tables[index]
-                this.$store.commit(types.ADD_PROJECT_TABLE, table)
-              }
-              this.$Message.info('新建项目成功')
-            } else {
-              this.$Message.error('表单验证失败!')
-            }
-          })
-        } else {
-          this.$Message.info('未检测到项目 Model 文件')
+        if (this.project.importFormExistModel && (!this.tables || this.tables.length === 0)) {
+          this.$Message.info('未检测到项目 Model 文件 如果不是已存在数据库的项目请勿勾选 已有在Model 如果是 请点击底部的帮助链接')
+          return
         }
+        this.$refs.projectForm.validate((valid) => {
+          if (valid) {
+            this.$store.commit(types.ADD_PROJECT, Object.assign({}, this.project, {config: this.projectConfig}))
+            this.$store.commit(types.UPDATE_SELECT_INDEX, this.$store.getters.projectList.length - 1)
+            for (let index = 0, len = this.tables.length; index < len; index++) {
+              let table = this.tables[index]
+              this.$store.commit(types.ADD_PROJECT_TABLE, table)
+            }
+            this.$Message.info('新建项目成功')
+          } else {
+            this.$Message.error('表单验证失败!')
+          }
+        })
       }
-    },
-    mounted () {
     }
   }
 </script>
