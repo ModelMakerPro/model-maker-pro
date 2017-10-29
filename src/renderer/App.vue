@@ -24,7 +24,6 @@
 </template>
 <style scoped lang="less">
     @import "~highlight.js/styles/monokai-sublime.css";
-
     .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;
@@ -116,8 +115,7 @@
   import AppHeader from './components/layout/app-header'
   import * as types from './store/mutation-types'
   import { save } from './utils/localstorage'
-  import { PROJECTS } from './store/store-keys'
-
+  import { PROJECTS } from './store/localstorage-keys'
   const _ = require('lodash')
   export default {
     components: {

@@ -1,4 +1,4 @@
-const defaultRows = require('@/config/default-row').default
+import * as projectConfigs from '../project-configs'
 const Sequelize = require('sequelize')
 const requireFromString = require('require-from-string')
 const path = require('path')
@@ -29,12 +29,6 @@ let getFilter = (comment = '') => {
     let titleIndex = comment.indexOf(']')
     let filterStr = comment.substring(titleIndex + 1, comment.length)
     let afterRemoveSplitStr = filterStr.replace('{', '').replace('}', '')
-    // let filters = afterRemoveSplitStr.split(',')
-    // let filter = {}
-    // filters.forEach(filterItem => {
-    //   let filterArr = filterItem.split(':')
-    //   filter[filterArr[0]] = filterArr[1]
-    // })
     return afterRemoveSplitStr.replace(',', ';')
   } else {
     return null
@@ -54,12 +48,12 @@ export const transform = (modelPath = '', projectType = 'springboot') => {
           if (excludedFields.indexOf(fieldKey) < 0) {
             let field = model[fieldKey]
             // 取用户选中的项目类型相对应的默认字段配置合并
-            fields.push(Object.assign({}, defaultRows[projectType], {
+            fields.push(Object.assign({}, projectConfigs[projectType], {
               title: getTitle(field.comment),
               field: fieldKey,
               displayField: fieldKey,
               filter: getFilter(field.comment),
-              xtype: getType(field.type, field.comment)
+              dataType: getType(field.type, field.comment)
             }))
           }
         }

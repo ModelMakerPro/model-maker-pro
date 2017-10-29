@@ -3,7 +3,7 @@
  */
 import * as types from '../mutation-types'
 import { get } from '../../utils/localstorage'
-import { SETTINGS } from '../store-keys'
+import { SETTINGS } from '../localstorage-keys'
 const defaultSettings = {
   workspace: null,
   // 模版存放文件夹

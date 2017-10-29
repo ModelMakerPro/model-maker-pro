@@ -3,7 +3,7 @@
  */
 import * as types from '../mutation-types'
 import UUID from 'uuid'
-import { PROJECTS, PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../store-keys'
+import { PROJECTS, PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../localstorage-keys'
 import { get } from '@/utils/localstorage'
 const state = {
   list: get({key: PROJECTS, defaultVal: []}),

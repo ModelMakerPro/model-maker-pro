@@ -8,8 +8,8 @@ export default {
   isShow: true,
   edit: true,
   required: false,
-  xtype: 'text',
-  relTable: null,
+  dataType: 'text',
+  associationTable: null,
   // 关联表列表地址
   selectUrl: null,
   displayField: null,
@@ -52,34 +52,40 @@ export default {
       value: null
     }
   },
-  laravel: {
-    searchable: {
+  springBoot: {
+    transient: {
       type: 'boolean',
-      name: '允许搜索',
-      value: true
-    },
-    fillable: {
-      type: 'boolean',
-      name: '可批量填充',
-      value: true
-    },
-    associateAttribute: {
-      type: 'boolean',
-      name: '关联属性',
+      name: '非数据库字段',
       value: false
     },
-    associateTable: {
-      type: 'text',
-      name: '关联表',
-      value: null
+    type: {
+      type: 'select',
+      name: '字段类型',
+      value: 'String',
+      optionKey: 'FIELD_TYPES'
+    },
+    updateble: {
+      type: 'boolean',
+      name: '是否更新数据库',
+      value: true
+    },
+    insertable: {
+      type: 'boolean',
+      name: '是否插入数据库',
+      value: true
     },
     relevance: {
       type: 'select',
       name: '关联模式',
       value: '',
-      optionKey: 'LARAVEL_ASSOCIATION_PATTERNS'
+      optionKey: 'ASSOCIATION_PATTERNS'
     },
-    verify: {
+    relevanceObject: {
+      type: 'text',
+      name: '关联对象',
+      value: '',
+    },
+    verify1: {
       type: 'select',
       name: '校验',
       value: '',

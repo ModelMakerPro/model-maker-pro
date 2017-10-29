@@ -11,7 +11,7 @@
                 <i-col span="24" style="text-align: center">
                 <Select class="select-warp" v-model="projectIndex"
                         :not-found-text="projectList.length === 0 ? '请先新增或导入项目' : '请选择项目'">
-                    <Option v-if="projectList.length === 0" value="" :key="-1">当前没有项目可用</Option>
+                    <Option v-if="projectList.length === 0" :value="-1" :key="-1">当前没有项目可用</Option>
                     <Option v-for="(project, index) in projectList" :value="index" :key="index">{{ project.name }}
                     </Option>
                 </Select>
@@ -58,6 +58,7 @@
                 </Menu-item>
             </template>
         </Menu>
+        <!--新增表格-->
         <Modal v-model="showAddModal" title="编辑/新增表" @on-ok="confirmAdd" @on-cancel="()=>{showAddModal = false}">
             <Form :model="table" label-position="right" :label-width="40">
                 <Form-item label="表名">
@@ -68,16 +69,7 @@
                 </Form-item>
             </Form>
         </Modal>
-        <Modal v-model="showAddModal" title="新增表" @on-ok="confirmAdd" @on-cancel="()=>{showAddModal = false}">
-            <Form :model="table" label-position="right" :label-width="40">
-                <Form-item label="表名">
-                    <Input v-model="table.name" placeholder="请输入表名"></Input>
-                </Form-item>
-                <Form-item label="备注">
-                    <Input v-model="table.comment" placeholder="请输入表备注"></Input>
-                </Form-item>
-            </Form>
-        </Modal>
+
         <Modal v-model="showDeleteConfirm" title="删除表" @on-ok="delTable" @on-cancel="()=>{showDeleteConfirm = false}">
             确定删除该表 操作无法恢复 请三思？
         </Modal>
@@ -123,7 +115,7 @@
 </style>
 <script type="text/ecmascript-6">
   import { save } from '../../utils/localstorage'
-  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../store/store-keys'
+  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../store/localstorage-keys'
   import { mapGetters } from 'vuex'
   import * as types from '../../store/mutation-types'
   import ProjectConfig from './project-config.vue'
@@ -149,7 +141,7 @@
     },
     methods: {
       goEditor () {
-        this.$router.push({name: 'FieldEditor', query: {mode: 'DEFAULT_ROW_SETTING', code: Math.random()}})
+        this.$router.push({name: 'FieldEditor', query: {mode: 'DEFAULT_ROW_SETTING', hash: Math.random()}})
       },
       delTable () {
         if (this.onEditTableIndex !== null && this.projectTables[this.onEditTableIndex]) {

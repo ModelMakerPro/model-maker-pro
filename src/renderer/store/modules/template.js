@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import { get, save } from '../../utils/localstorage'
-import { TEMPLATE_SETTINGS } from '../store-keys'
+import { TEMPLATE_SETTINGS } from '../localstorage-keys'
 const defaultConfigs = {
   dir: null,
   list: get(TEMPLATE_SETTINGS, [])

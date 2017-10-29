@@ -11,6 +11,11 @@ export default new Router({
       component: require('../views/Home.vue').default
     },
     {
+      path: '/NewProject',
+      name: 'NewProject',
+      component: require('../views/NewProject.vue').default
+    },
+    {
       path: '/FieldEditor',
       name: 'FieldEditor',
       component: require('../views/FieldEditor.vue').default

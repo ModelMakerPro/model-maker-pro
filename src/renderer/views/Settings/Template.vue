@@ -4,20 +4,20 @@
             <Form-item label="模版存放文件夹">
                 <Row>
                     <i-col :span="20">
-                    <Input :value="settings.dir" disabled></Input>
+                        <Input :value="settings.dir" disabled></Input>
                     </i-col>
                     <i-col :span="4">
-                    <Button @click="choseTemplate" style="width: 100%" type="primary">更改</Button>
+                        <Button @click="choseTemplate" style="width: 100%" type="primary">更改</Button>
                     </i-col>
                 </Row>
             </Form-item>
         </Form>
         <Row style="margin-bottom: 10px">
             <i-col :span="10" style="line-height: 30px;">
-            <p>模版列表(任何数据异常 请点击右侧 同步模版)</p>
+                <p>模版列表(任何数据异常 请点击右侧 同步模版)</p>
             </i-col>
             <i-col :span="14" style="line-height: 30px;text-align: right">
-            <Button @click="syncTpl" type="success">同步模版</Button>
+                <Button @click="syncTpl" type="success">同步模版</Button>
             </i-col>
         </Row>
         <div class="table-area">
@@ -39,7 +39,9 @@
                     <td><Input v-model="tpl.suffix" placeholder="导出的文件后缀"></Input></td>
                     <td>
                         <Select v-model="tpl.filenameFormat" style="width:250px">
-                            <Option v-for="format in formatList" :value="format.value" :key="format.label">{{ format.label }}</Option>
+                            <Option v-for="format in formatList" :value="format.value" :key="format.label">
+                                {{ format.label }}
+                            </Option>
                         </Select>
                     </td>
                     <td>
@@ -91,10 +93,11 @@
     }
 </style>
 <script type="text/ecmascript-6">
-  import { openDialog } from '@/utils/electron-helper'
-  import * as types from '@/store/mutation-types'
+  import { openDialog } from '../../utils/electron'
+  import * as types from '../../store/mutation-types'
   import _ from 'lodash'
-  export default{
+
+  export default {
     data () {
       return {
         settings: null,

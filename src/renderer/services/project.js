@@ -1,4 +1,4 @@
-import { openDialog, openFileExplorer } from '../utils/electron-helper'
+import { openDialog, openFileExplorer } from '../utils/electron'
 import store from '../store'
 import * as types from '../store/mutation-types'
 import * as customHelper from '../utils/helper'
@@ -6,9 +6,9 @@ import * as tools from '../config/tool'
 
 const fs = require('fs')
 const path = require('path')
-require('../utils/handlebars-helper')
-require('../utils/my-handlebars-helper')
 let Handlebars = require('handlebars')
+// custom
+require('../utils/hbs-helpers')
 require('handlebars-helpers')({
   handlebars: Handlebars
 })

@@ -91,9 +91,9 @@
 <style lang="less" scoped>
 </style>
 <script type="text/ecmascript-6">
-  import { openDialog } from '../utils/electron-helper'
+  import { openDialog } from '../utils/electron'
   import * as types from '../store/mutation-types'
-  import * as keys from '../store/store-keys'
+  import * as keys from '../store/localstorage-keys'
   import {save} from '../utils/localstorage'
   export default{
     props: {
