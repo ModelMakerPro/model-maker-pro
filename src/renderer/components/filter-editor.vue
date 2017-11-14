@@ -2,7 +2,7 @@
     <div>
         <Modal v-model="showModel" title="选项配置" @on-ok="()=>{showModel = false}" @on-cancel="()=>{showModel = false}">
             <Row>
-                <template v-for="(value, key) in filter">
+                <template v-for="(value, key) in options">
                     <i-col>
                         <Input :value="value" disabled>
                     </i-col>
@@ -25,7 +25,7 @@
     },
     data () {
       return {
-        filter: this.value,
+        options: this.value,
         showModal: false
       }
     },

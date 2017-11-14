@@ -27,8 +27,8 @@ let getTitle = (comment = '') => {
 let getFilter = (comment = '') => {
   if (isSelect(comment)) {
     let titleIndex = comment.indexOf(']')
-    let filterStr = comment.substring(titleIndex + 1, comment.length)
-    let afterRemoveSplitStr = filterStr.replace('{', '').replace('}', '')
+    let optionsStr = comment.substring(titleIndex + 1, comment.length)
+    let afterRemoveSplitStr = optionsStr.replace('{', '').replace('}', '')
     return afterRemoveSplitStr.replace(',', ';')
   } else {
     return null
@@ -52,8 +52,8 @@ export const transform = (modelPath = '', projectType = 'springboot') => {
               title: getTitle(field.comment),
               field: fieldKey,
               displayField: fieldKey,
-              filter: getFilter(field.comment),
-              dataType: getType(field.type, field.comment)
+              options: getFilter(field.comment),
+              type: getType(field.type, field.comment)
             }))
           }
         }

@@ -16,6 +16,11 @@ export default new Router({
       component: require('../views/NewProject.vue').default
     },
     {
+      path: '/CreateModel',
+      name: 'CreateModel',
+      component: require('../views/CreateModel.vue').default
+    },
+    {
       path: '/FieldEditor',
       name: 'FieldEditor',
       component: require('../views/FieldEditor.vue').default

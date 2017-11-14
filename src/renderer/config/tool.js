@@ -68,7 +68,7 @@ let splitToArray = (str) => {
  */
 let setObjectPropToKeyValue = (field) => {
   Object.keys(field).forEach((key) => {
-    if (field[key] instanceof Object && key !== 'filter') {
+    if (field[key] instanceof Object && key !== 'options') {
       field[key] = setValue(field[key])
     }
   })
@@ -76,8 +76,8 @@ let setObjectPropToKeyValue = (field) => {
 }
 let dealWithFields = (field) => {
   field = setObjectPropToKeyValue(field)
-  if (field.filter) {
-    field.filter = splitToArray(field.filter)
+  if (field.options) {
+    field.options = splitToArray(field.options)
   }
   return field
 }

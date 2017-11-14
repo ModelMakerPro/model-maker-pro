@@ -48,14 +48,14 @@
                         </td>
                         <td i-colspan="1" style="width: 140px">
                             <template v-if="index === onEditIndex">
-                                <Select v-model="item.dataType">
+                                <Select v-model="item.type">
                                     <Option v-for="(type, index2) in typeList" :value="type.value" :key="index2">
                                         {{ type.label}}
                                     </Option>
                                 </Select>
                             </template>
                             <template v-else>
-                                {{getRelValue(item.dataType, typeList, 'value', 'label')}}
+                                {{getRelValue(item.type, typeList, 'value', 'label')}}
                             </template>
                         </td>
                         <td i-colspan="1" style="width: 100px">
@@ -80,10 +80,10 @@
                         </td>
                         <td i-colspan="1">
                             <template v-if="index === onEditIndex">
-                                <Input v-model="item.filter" placeholder="0:保密;1:男;2:女"></Input>
+                                <Input v-model="item.options" placeholder="0:保密;1:男;2:女"></Input>
                             </template>
                             <template v-else>
-                                {{item.filter}}
+                                {{item.options}}
                             </template>
                         </td>
                         <td i-colspan="1" style="padding: 0 5px;">
@@ -245,10 +245,6 @@
       showAttrsEditBox () {
         return this.onEditIndex !== null && this.onEditRow && this.attrs
       },
-      options () {
-        // TODO 换成项目对应的下拉选项列表
-        return {}
-      },
       tableList () {
         let empty = [
           {
@@ -267,6 +263,11 @@
       }
     },
     methods: {
+      // 移除编辑状态
+      unEdit () {
+        this.onEditRow = null
+        this.onEditIndex = null
+      },
       updateAttrs (field) {
         let attrs = {}
         if (field) {
@@ -282,6 +283,7 @@
         if (e.keyCode === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey && !e.shiftKey)) {
           e.preventDefault()
           this.save()
+          this.unEdit()
         }
         if (e.keyCode === 46) {
           if (window.confirm('确认删除该行字段？')) {

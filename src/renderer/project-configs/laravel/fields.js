@@ -8,12 +8,12 @@ export default {
   isShow: true,
   edit: true,
   required: false,
-  dataType: 'text',
+  type: 'text',
   associationTable: null,
   // 关联表列表地址
   selectUrl: null,
   displayField: null,
-  filter: null,
+  options: null,
   db: {
     isDbField: {
       type: 'boolean',

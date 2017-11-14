@@ -37,6 +37,8 @@
                     <p class="tips">
                         <span style="color: red">注意事项</span><br>
                         如果你已经使用了 we-sequelize-auto 或者 sequelize-auto 将你的现有项目的数据库 Model 导出至某个文件夹 <br>
+                        <router-link :to="{name: 'CreateModel'}">请点击此处导出项目数据库的 Model</router-link>
+                        <br>
                         那么可以将 已有Model 这一项打钩<br>
                         然后选择你Model存放的目录,导入相应的项目<br>
                         如果没有则属于新增项目,直接填写项目名称和类型即可提交创建项目
