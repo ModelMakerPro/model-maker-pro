@@ -4,12 +4,12 @@
               theme="dark" width="auto">
             <Row type="flex" justify="center" class="code-row-bg">
                 <i-col span="24" style="text-align: center">
-                <div class="logo-warp">
+                <div class="logo-wrap">
                     <router-link to="/">Model Maker Pro</router-link>
                 </div>
                 </i-col>
                 <i-col span="24" style="text-align: center">
-                <Select class="select-warp" v-model="projectIndex"
+                <Select class="select-wrap" v-model="projectIndex"
                         :not-found-text="projectList.length === 0 ? '请先新增或导入项目' : '请选择项目'">
                     <Option v-if="projectList.length === 0" :value="-1" :key="-1">当前没有项目可用</Option>
                     <Option v-for="(project, index) in projectList" :value="index" :key="index">{{ project.name }}
@@ -19,7 +19,7 @@
                 <i-col span="24" style="text-align: center;">
                 <Row>
                     <i-col :span="12">
-                        <Button-group class="btn-group-warp">
+                        <Button-group class="btn-group-wrap">
 
                             <Button type="info" shape="circle" @click="showProjectConfigModal = true">
                                 <Tooltip content="项目配置">
@@ -34,7 +34,7 @@
                         </Button-group>
                     </i-col>
                     <i-col :span="12">
-                        <Button-group class="btn-group-warp">
+                        <Button-group class="btn-group-wrap">
                             <Button type="primary" shape="circle" @click="addTable">
                                 <Tooltip content="添加新表(模型)">
                                     <Icon size="16" type="plus"></Icon>
@@ -84,10 +84,10 @@
         width: 100%;
         height: 100%;
         overflow: auto;
-        .logo-warp, .select-warp, .btn-group-warp {
+        .logo-wrap, .select-wrap, .btn-group-wrap {
             margin: 8px auto;
         }
-        .logo-warp, .select-warp {
+        .logo-wrap, .select-wrap {
             width: 90%;
             height: 30px;
             background: #5b6270;
@@ -96,10 +96,10 @@
                 width: 100%;
             }
         }
-        .select-warp {
+        .select-wrap {
             text-align: left;
         }
-        .logo-warp {
+        .logo-wrap {
             color: white;
             line-height: 30px;
             text-align: center;

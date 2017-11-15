@@ -52,3 +52,17 @@ hbs.registerHelper('jsToStr', function (tables) {
   })
   return javascriptStringify(tables, null, 2)
 })
+hbs.registerHelper('toUpperCase', function (str) {
+  return str.toUpperCase()
+})
+hbs.registerHelper('camelToDash', function (str) {
+  if (str === '') {
+    return ''
+  }
+
+  str = str[0].toLowerCase() + str.substr(1)
+
+  return str.replace(/([A-Z])/g, function ($1) {
+    return '_' + $1.toLowerCase()
+  })
+})

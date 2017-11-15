@@ -62,14 +62,14 @@
             </i-col>
         </Row>
         <Modal v-model="showModelPreview" :width="900" :styles="{top: '0px'}">
-            <div class="model-preview-warpper" :style="{height: screenHeight}">
+            <div class="model-preview-wrapper" :style="{height: screenHeight}">
                 <tree-view :data="previewModel" :options="{maxDepth: 3}"></tree-view>
             </div>
         </Modal>
     </div>
 </template>
 <style scoped lang="less" rel="stylesheet/less">
-    .model-preview-warpper {
+    .model-preview-wrapper {
         display: block;
         overflow-y: scroll;
     }

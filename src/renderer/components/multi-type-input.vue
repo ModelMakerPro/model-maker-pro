@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="label">{{label}}</div>
-        <div class="warp">
+        <div class="wrap">
             <template v-if="type === 'number'">
                 <Input v-model="model" number placeholder="请输入..."></Input>
             </template>
@@ -33,7 +33,7 @@
         height: 38px;
     }
 
-    .warp {
+    .wrap {
         width: 150px;
         display: inline-block;
     }

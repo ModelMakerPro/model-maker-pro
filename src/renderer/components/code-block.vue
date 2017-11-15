@@ -1,36 +1,19 @@
 <template>
-    <div class="code-warpper" :id="code.title + '-code-block'">
-        <p class="title" :class="{'highlight': code.highlight}">{{code.title}} ({{code.comment}})</p>
+    <div class="code-wrapper" :id="code.title + '-code-block'">
         <div class="code-block">
-            <p class="tips">变量(传入的Model)</p>
+            <p class="tips">变量 (渲染数据)</p>
             <pre><code class="code-block hljs lang-javascript" :id="'variable-' + id">{{code.variable}}</code></pre>
-            <p class="tips">用法(需要渲染的模版)</p>
+            <p class="tips">用法 (渲染模版)</p>
             <pre><code class="code-block hljs lang-javascript" :id="'template-' + id">{{code.template}}</code></pre>
-            <p class="tips">结果(输出结果)</p>
+            <p class="tips">结果 (渲染结果)</p>
             <pre><code class="code-block hljs lang-javascript" :id="'result-' + id">{{renderResult}}</code></pre>
         </div>
     </div>
 </template>
 <style lang="less" scoped>
-    .code-warpper {
+    .code-wrapper {
         max-width: 800px;
         display: block;
-    }
-
-    .title {
-        height: 30px;
-        line-height: 30px;
-        font-size: 16px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        background: #e3e8ee;
-        color: black;
-        padding-left: 20px;
-        border-left: 4px solid #464c5b;
-        box-sizing: border-box;
-        &.highlight{
-            border: 2px dashed #ff3300;
-        }
     }
     .code-block{
         padding-left: 10px;
@@ -39,8 +22,9 @@
         font-size: 14px;
         line-height: 35px;
         padding-left: 5px;
-        background: #e3e8ee;
-        color: black;
+        background: #eee;
+        color: #353535;
+        margin-top: 10px;
     }
 
     .code-block {
