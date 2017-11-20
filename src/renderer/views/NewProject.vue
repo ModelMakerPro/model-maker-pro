@@ -116,6 +116,14 @@
       },
       projectConfig () {
         return projectConfigs[this.project.type]
+      },
+      tablesAfterTransform () {
+        return this.tables.map(table => {
+          table.fields = table.fields.map((field) => {
+            return Object.assign({}, this.projectConfig.fields, field)
+          })
+          return table
+        })
       }
     },
     methods: {
@@ -142,8 +150,8 @@
           if (valid) {
             this.$store.commit(types.ADD_PROJECT, Object.assign({}, this.project, {config: this.projectConfig}))
             this.$store.commit(types.UPDATE_SELECT_INDEX, this.$store.getters.projectList.length - 1)
-            for (let index = 0, len = this.tables.length; index < len; index++) {
-              let table = this.tables[index]
+            for (let index = 0, len = this.tablesAfterTransform.length; index < len; index++) {
+              let table = this.tablesAfterTransform[index]
               this.$store.commit(types.ADD_PROJECT_TABLE, table)
             }
             this.$Message.info('新建项目成功')
