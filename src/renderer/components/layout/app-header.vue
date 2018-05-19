@@ -7,7 +7,7 @@
             删除当前项目
         </Button>
         <router-link tag="span" :to="{name: 'ExportPage'}">
-            <Button type="primary">导出配置</Button>
+            <Button type="primary">根据模版导出文件</Button>
         </router-link>
         <!--马上同步到本地文件-->
         <div @click="$project.syncToLocalFile($store.getters.projectList, $store.dispatch('showNotice', {type: 'success', title: '保存成功', desc: '项目已同步到本地文件中!'}))"

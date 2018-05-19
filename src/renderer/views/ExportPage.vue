@@ -2,57 +2,58 @@
     <div>
         <Row :style="contentWarpHeight">
             <i-col :span="6" class="slider" :style="contentWarpHeight">
-            <Form :model="form" label-position="top">
-                <h3 style="margin: 10px 0">导出配置</h3>
-                <!--导出配置-->
-                <Form-item label="请选择模版">
-                    <Select v-model="form.tplIndex">
-                        <Option v-for="(item, index) in templateList" :value="index" :key="index">{{ item.name }}
-                        </Option>
-                    </Select>
-                </Form-item>
-                <template v-if="tpl && tpl.type === 'list'">
-                    <h3 style="margin: 10px 0">预览配置</h3>
-                    <!--预览配置-->
-                    <Form-item label="预览表选择(默认第一个)">
-                        <Select v-model="form.previewTableIndex">
-                            <Option v-for="(item, index) in projectTableIndexAndLabels" :value="item.index"
-                                    :key="index">{{ item.name}}({{item.comment}})
+                <Form :model="form" label-position="top">
+                    <h3 style="margin: 10px 0">导出配置</h3>
+                    <!--导出配置-->
+                    <Form-item label="请选择模版">
+                        <Select v-model="form.tplIndex">
+                            <Option v-for="(item, index) in templateList" :value="index" :key="index">{{ item.name }}
                             </Option>
                         </Select>
                     </Form-item>
-                </template>
-                <h3 style="margin: 10px 0">语法高亮选择</h3>
-                <Form-item label="右侧预览代码语法">
-                    <Select v-model="lang">
-                        <Option v-for="(item, index) in ['sql', 'java', 'php', 'javascript', 'html']" :value="item"
-                                :key="index">{{ item }}
-                        </Option>
-                    </Select>
-                </Form-item>
-                <Form-item>
-                    <Button style="width: 60px" :dsiabled="onLoad" @click="preview" type="primary">
-                        {{onLoad ? 'loading...' : '预览'}}
-                    </Button>
-                    <Button style="width: 60px" :dsiabled="onLoad" @click="preview(false)" type="success">
-                        导出
-                    </Button>
-                    <Button style="width: 90px" :dsiabled="onLoad" @click="openPreviewModel" type="info">
-                        Model 预览
-                    </Button>
-                    <Button mini @click="openHelper" type="info">
-                        帮助
-                    </Button>
-                </Form-item>
-                <div class="tips">
-                    <p>快捷键列表</p>
-                    <ul>
-                        <li><code class="key-code">Ctrl + Shift + A</code> <span class="function">预览结果</span></li>
-                        <li><code class="key-code">Ctrl + Shift + M</code> <span class="function">预览Model</span></li>
-                        <li><code class="key-code">Ctrl + Shift + H</code> <span class="function">打开帮助文档</span></li>
-                    </ul>
-                </div>
-            </Form>
+                    <template v-if="tpl && tpl.type === 'list'">
+                        <h3 style="margin: 10px 0">预览配置</h3>
+                        <!--预览配置-->
+                        <Form-item label="预览表选择(默认第一个)">
+                            <Select v-model="form.previewTableIndex">
+                                <Option v-for="(item, index) in projectTableIndexAndLabels" :value="item.index"
+                                        :key="index">{{ item.name}}({{item.comment}})
+                                </Option>
+                            </Select>
+                        </Form-item>
+                    </template>
+                    <h3 style="margin: 10px 0">语法高亮选择</h3>
+                    <Form-item label="右侧预览代码语法">
+                        <Select v-model="lang">
+                            <Option v-for="(item, index) in ['sql', 'java', 'php', 'javascript', 'html']" :value="item"
+                                    :key="index">{{ item }}
+                            </Option>
+                        </Select>
+                    </Form-item>
+                    <Form-item>
+                        <Button style="width: 60px" :dsiabled="onLoad" @click="preview" type="primary">
+                            {{onLoad ? 'loading...' : '预览'}}
+                        </Button>
+                        <Button style="width: 60px" :dsiabled="onLoad" @click="preview(false)" type="success">
+                            导出
+                        </Button>
+                        <Button style="width: 90px" :dsiabled="onLoad" @click="openPreviewModel" type="info">
+                            Model 预览
+                        </Button>
+                        <Button mini @click="openHelper" type="info">
+                            帮助
+                        </Button>
+                    </Form-item>
+                    <div class="tips">
+                        <p>快捷键列表</p>
+                        <ul>
+                            <li><code class="key-code">Ctrl + Shift + A</code> <span class="function">预览结果</span></li>
+                            <li><code class="key-code">Ctrl + Shift + M</code> <span class="function">预览Model</span>
+                            </li>
+                            <li><code class="key-code">Ctrl + Shift + H</code> <span class="function">打开帮助文档</span></li>
+                        </ul>
+                    </div>
+                </Form>
             </i-col>
             <i-col :span="18" style="padding: 0 10px" :style="contentWarpHeight">
             <pre v-if="contentString" :style="contentWarpHeight" class="code"><code id="create-code"
@@ -62,9 +63,13 @@
             </i-col>
         </Row>
         <Modal v-model="showModelPreview" :width="900" :styles="{top: '0px'}">
+            <div style="color: red;font-size: 16px;padding: 10px 0;font-weight: bold" v-if="templateList[form.previewTableIndex] && templateList[form.previewTableIndex].type === 'project'">
+                为避免Modal数据过多导致预览慢的问题，tables 仅显示第一个表格的 Model
+            </div>
             <div class="model-preview-wrapper" :style="{height: screenHeight}">
                 <tree-view :data="previewModel" :options="{maxDepth: 3}"></tree-view>
             </div>
+            <div slot="footer"></div>
         </Modal>
     </div>
 </template>
@@ -120,7 +125,7 @@
     }
 </style>
 <script type="text/ecmascript-6">
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   const highlightjs = require('highlight.js')
   export default {
@@ -170,7 +175,14 @@
       },
       setPreviewModel () {
         this.previewModel = null
-        this.previewModel = this.$project.getTablePreview(this.form.previewTableIndex, this.templateList[this.form.previewTableIndex] && this.templateList[this.form.previewTableIndex].type)
+        let previewModel = this.$project.getTablePreview(this.form.previewTableIndex, this.templateList[this.form.previewTableIndex] && this.templateList[this.form.previewTableIndex].type)
+        if (this.templateList[this.form.previewTableIndex].type) {
+          // this.$Message.info('为避免Modal数据过多导致预览慢的问题，tables 仅显示第一个表格的 Model')
+          previewModel.tables = [previewModel.tables[0]]
+          this.previewModel = previewModel
+        } else {
+          this.previewModel = previewModel
+        }
         this.showModelPreview = true
       },
       highlight () {

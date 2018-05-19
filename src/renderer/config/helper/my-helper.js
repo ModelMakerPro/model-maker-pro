@@ -44,5 +44,5 @@ export default [
       name: 'user_address'
     },
     template: `{{upperFirst (dashToCamel name)}}`
-  },
+  }
 ]

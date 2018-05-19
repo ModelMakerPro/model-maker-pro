@@ -50,7 +50,11 @@ hbs.registerHelper('jsToStr', function (tables) {
     delete table.db
     delete table.springBoot
   })
-  return javascriptStringify(tables, null, 2)
+  let str = javascriptStringify(tables, null, 2)
+  // TODO 不生效 会有转义字符出现
+  str = str.replace(new RegExp("&" + "#" + "x27;", "g"), "'")
+  console.log(str)
+  return str
 })
 hbs.registerHelper('toUpperCase', function (str) {
   return str.toUpperCase()

@@ -171,10 +171,11 @@
 </style>
 <script type="text/ecmascript-6">
   import * as types from '../store/mutation-types'
-  import { getDefaultRow } from '../config/tool'
+  import {getDefaultRow} from '../config/tool'
   import MultiTypeInput from '../components/multi-type-input'
-  import { clone, moveDown, moveUp, insert } from '../utils/helper'
+  import {clone, moveDown, moveUp, insert} from '../utils/helper'
   import PropsAdd from '../components/props-add'
+  import projectConfig from '../project-configs'
 
   export default {
     components: {
@@ -242,6 +243,9 @@
       onEditRow: 'updateAttrs'
     },
     computed: {
+      options () {
+        return projectConfig[this.$store.getters.onEditProject.type].fieldOptions
+      },
       showAttrsEditBox () {
         return this.onEditIndex !== null && this.onEditRow && this.attrs
       },

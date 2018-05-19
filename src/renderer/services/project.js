@@ -1,4 +1,4 @@
-import { openDialog, openFileExplorer } from '../utils/electron'
+import {openDialog, openFileExplorer} from '../utils/electron'
 import store from '../store'
 import * as types from '../store/mutation-types'
 import * as customHelper from '../utils/helper'
@@ -131,7 +131,8 @@ export function install (Vue) {
                     } else {
                       filename = table.name
                     }
-                    writeToLocalFile(path.resolve(res[0], `./${filename + tplInfo.suffix}`), tpl(table), false)
+                    writeToLocalFile(path.resolve(res[0], `./${filename + tplInfo.suffix}`), tpl(table), () => {
+                    })
                     if (index === exportProjectObj.tables.length - 1) {
                       openFileExplorer(res[0])
                     }
@@ -155,9 +156,20 @@ export function install (Vue) {
      */
     exportProjectFile () {
       let project = store.getters.projectList[store.getters.projectIndex]
+      let successCount = 0
+      let errorCount = 0
       if (project && project.id) {
         openDialog((res) => {
           if (res && res.length > 0) {
+            let showNotice = () => {
+              if (successCount + errorCount === res.length) {
+                store.dispatch('showNotice', {
+                  type: 'info',
+                  title: '导出完成',
+                  desc: `导出成功: ${successCount} \n 导出失败:${errorCount}`
+                })
+              }
+            }
             fs.open(path.resolve(res[0], `./${project.name}${projectConfPostfix}`), 'a', (err, fd) => {
               if (err) {
                 store.dispatch('showNotice', {type: 'error', title: '导出项目失败', desc: err})
@@ -169,10 +181,12 @@ export function install (Vue) {
               let filePostion = null
               fs.write(fd, writeBuffer, offset, len, filePostion, (err, readByte) => {
                 if (err) {
-                  store.dispatch('showNotice', {type: 'error', title: '导出项目失败', desc: err})
+                  errorCount++
+                  showNotice()
                   return
                 }
-                store.dispatch('showNotice', '导出成功')
+                successCount++
+                showNotice()
                 fs.close(fd)
               })
             })
@@ -234,7 +248,8 @@ export function install (Vue) {
      * @param projectList
      * @param callbackFn function
      */
-    syncToLocalFile (projectList, callbackFn = () => {}) {
+    syncToLocalFile (projectList, callbackFn = () => {
+    }) {
       let workspace = store.getters.workspace || null
       if (workspace && projectList.length > 0) {
         projectList.forEach((project, index) => {
