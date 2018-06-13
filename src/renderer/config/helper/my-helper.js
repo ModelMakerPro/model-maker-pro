@@ -3,17 +3,6 @@
  */
 export default [
   {
-    title: 'upperFirstAndDashToCamel',
-    comment: '首字母大写驼峰式',
-    highlight: false,
-    variable: {
-      name: 'user_address'
-    },
-    template: `class {{upperFirstAndDashToCamel name}}Controller extend Controller {
-    // code somethings
-}`
-  },
-  {
     title: 'dashToCamel',
     comment: '下划线转驼峰',
     highlight: false,
@@ -23,6 +12,15 @@ export default [
     template: `class {{dashToCamel name}}Controller extend Controller {
     // code somethings
 }`
+  },
+  {
+    title: 'camelToDash',
+    comment: '驼峰转下划线',
+    highlight: false,
+    variable: {
+      name: 'userAddress'
+    },
+    template: `{{camelToDash name}}`
   },
   {
     title: 'json',
@@ -37,5 +35,14 @@ export default [
       }
     },
     template: `{{{json this true}}}`
+  },
+  {
+    title: 'multiple helper',
+    comment: '同时使用多个Helper',
+    highlight: false,
+    variable: {
+      name: 'user_address'
+    },
+    template: `{{upperFirst (dashToCamel name)}}`
   }
 ]

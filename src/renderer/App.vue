@@ -1,8 +1,8 @@
 <template>
-    <div class="layout" >
+    <div class="layout">
         <Row type="flex">
             <i-col span="4" class="layout-menu-left" :style="fullHeight">
-                <app-slider></app-slider>
+                <AppSlider></AppSlider>
             </i-col>
             <i-col span="20">
                 <div class="layout-header">
@@ -72,12 +72,13 @@
         display: none;
     }
 
-    .ivu-col {
+    .ivu-i-col {
         transition: width .2s ease-in-out;
     }
 </style>
 <style lang="less">
-    @import './styles/tree-view';
+    @import './assets/styles/tree-view';
+
     * {
         margin: 0;
         padding: 0;
@@ -88,6 +89,7 @@
         height: 100%;
         overflow: hidden;
     }
+
     * {
         &::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -103,16 +105,17 @@
             background-color: #9ea7b4;
         }
     }
+
     .border-r {
         border-right: 1px solid #cccccc;
     }
 </style>
 <script>
-  import AppSlider from 'components/layout/app-slider'
-  import AppHeader from 'components/layout/app-header'
-  import * as types from './vuex/mutation-types'
+  import AppSlider from './components/layout/app-slider'
+  import AppHeader from './components/layout/app-header'
+  import * as types from './store/mutation-types'
   import { save } from './utils/localstorage'
-  import { PROJECTS } from './vuex/modules/store-keys'
+  import { PROJECTS } from './store/localstorage-keys'
   const _ = require('lodash')
   export default {
     components: {
@@ -136,13 +139,10 @@
     },
     mounted () {
       this.$store.dispatch('showNotice', '欢迎使用')
+      this.$store.commit(types.WINDOW_ON_RESIZE)
       window.addEventListener('resize', () => {
         this.$store.commit(types.WINDOW_ON_RESIZE)
       })
-      // 先同步软件上的项目到本地 同步完成再同步本地的项目到软件存储中
-//      this.$project.syncToLocalFile(this.$store.getters.projectList, () => {
-//        this.$project.syncProject(false)
-//      })
       window.document.addEventListener('keydown', (e) => {
         if (e.keyCode === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey) && e.shiftKey) {
           e.preventDefault()

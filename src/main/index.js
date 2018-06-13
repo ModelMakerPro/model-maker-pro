@@ -1,32 +1,28 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
-console.log(Menu)
-// Install `electron-debug` with `devtron`
-require('electron-debug')({showDevTools: process.env.NODE_ENV === 'development'})
 
-// Install `vue-devtools`
+/**
+ * Set `__static` path to static files in production
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
+ */
+if (process.env.NODE_ENV !== 'development') {
+  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+}
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:${require('../../.electron-vue/config').port}`
+  ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
 function createWindow () {
-  let installExtension = require('electron-devtools-installer')
-  if (process.env.NODE_ENV === 'development') {
-    installExtension.default(installExtension.VUEJS_DEVTOOLS)
-      .then(() => {})
-      .catch(err => {
-        console.log('Unable to install `vue-devtools`: \n', err)
-      })
-  }
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 800,
-    width: 1690
+    useContentSize: true,
+    width: 1700
   })
 
   mainWindow.loadURL(winURL)
@@ -44,9 +40,7 @@ function createWindow () {
     submenu: [
       {
         label: '关于ModelMakerPro',
-        click: (e) => {
-          console.log(e)
-        }
+        click: function (e) {}
       },
       {type: 'separator'},
       {label: '退出', accelerator: 'Command+Q', click: function () { app.quit() }}
@@ -83,3 +77,23 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+/**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+/*
+import { autoUpdater } from 'electron-updater'
+
+autoUpdater.on('update-downloaded', () => {
+  autoUpdater.quitAndInstall()
+})
+
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+})
+ */

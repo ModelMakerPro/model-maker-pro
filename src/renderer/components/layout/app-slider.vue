@@ -3,23 +3,23 @@
         <Menu :active-name="(activeTable && activeTable.id) || $route.query.tableId" @on-select="onTableSelect"
               theme="dark" width="auto">
             <Row type="flex" justify="center" class="code-row-bg">
-                <Col span="24" style="text-align: center">
-                <div class="logo-warp">
+                <i-col span="24" style="text-align: center">
+                <div class="logo-wrap">
                     <router-link to="/">Model Maker Pro</router-link>
                 </div>
-                </Col>
-                <Col span="24" style="text-align: center">
-                <Select class="select-warp" v-model="projectIndex"
+                </i-col>
+                <i-col span="24" style="text-align: center">
+                <Select class="select-wrap" v-model="projectIndex"
                         :not-found-text="projectList.length === 0 ? '请先新增或导入项目' : '请选择项目'">
-                    <Option v-if="projectList.length === 0" value="" :key="-1">当前没有项目可用</Option>
+                    <Option v-if="projectList.length === 0" :value="-1" :key="-1">当前没有项目可用</Option>
                     <Option v-for="(project, index) in projectList" :value="index" :key="index">{{ project.name }}
                     </Option>
                 </Select>
-                </Col>
-                <Col span="24" style="text-align: center;">
+                </i-col>
+                <i-col span="24" style="text-align: center;">
                 <Row>
                     <i-col :span="12">
-                        <Button-group class="btn-group-warp">
+                        <Button-group class="btn-group-wrap">
 
                             <Button type="info" shape="circle" @click="showProjectConfigModal = true">
                                 <Tooltip content="项目配置">
@@ -34,7 +34,7 @@
                         </Button-group>
                     </i-col>
                     <i-col :span="12">
-                        <Button-group class="btn-group-warp">
+                        <Button-group class="btn-group-wrap">
                             <Button type="primary" shape="circle" @click="addTable">
                                 <Tooltip content="添加新表(模型)">
                                     <Icon size="16" type="plus"></Icon>
@@ -49,7 +49,7 @@
                         </Button-group>
                     </i-col>
                 </Row>
-                </Col>
+                </i-col>
             </Row>
             <template v-for="(table, index) in projectTables">
                 <Menu-item :name="table.id">
@@ -58,6 +58,7 @@
                 </Menu-item>
             </template>
         </Menu>
+        <!--新增表格-->
         <Modal v-model="showAddModal" title="编辑/新增表" @on-ok="confirmAdd" @on-cancel="()=>{showAddModal = false}">
             <Form :model="table" label-position="right" :label-width="40">
                 <Form-item label="表名">
@@ -68,16 +69,7 @@
                 </Form-item>
             </Form>
         </Modal>
-        <Modal v-model="showAddModal" title="新增表" @on-ok="confirmAdd" @on-cancel="()=>{showAddModal = false}">
-            <Form :model="table" label-position="right" :label-width="40">
-                <Form-item label="表名">
-                    <Input v-model="table.name" placeholder="请输入表名"></Input>
-                </Form-item>
-                <Form-item label="备注">
-                    <Input v-model="table.comment" placeholder="请输入表备注"></Input>
-                </Form-item>
-            </Form>
-        </Modal>
+
         <Modal v-model="showDeleteConfirm" title="删除表" @on-ok="delTable" @on-cancel="()=>{showDeleteConfirm = false}">
             确定删除该表 操作无法恢复 请三思？
         </Modal>
@@ -89,12 +81,13 @@
 <style lang="less">
     #slider {
         display: block;
+        width: 100%;
         height: 100%;
         overflow: auto;
-        .logo-warp, .select-warp, .btn-group-warp {
+        .logo-wrap, .select-wrap, .btn-group-wrap {
             margin: 8px auto;
         }
-        .logo-warp, .select-warp {
+        .logo-wrap, .select-wrap {
             width: 90%;
             height: 30px;
             background: #5b6270;
@@ -103,10 +96,10 @@
                 width: 100%;
             }
         }
-        .select-warp {
+        .select-wrap {
             text-align: left;
         }
-        .logo-warp {
+        .logo-wrap {
             color: white;
             line-height: 30px;
             text-align: center;
@@ -122,9 +115,9 @@
 </style>
 <script type="text/ecmascript-6">
   import { save } from '../../utils/localstorage'
-  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../vuex/modules/store-keys'
+  import { PROJECTS_INDEX, ON_EDIT_TABLE_INDEX } from '../../store/localstorage-keys'
   import { mapGetters } from 'vuex'
-  import * as types from '../../vuex/mutation-types'
+  import * as types from '../../store/mutation-types'
   import ProjectConfig from './project-config.vue'
   import TableConfig from './table-config.vue'
   export default{
@@ -148,7 +141,7 @@
     },
     methods: {
       goEditor () {
-        this.$router.push({name: 'FieldEditor', query: {mode: 'DEFAULT_ROW_SETTING', code: Math.random()}})
+        this.$router.push({name: 'FieldEditor', query: {mode: 'DEFAULT_ROW_SETTING', hash: Math.random()}})
       },
       delTable () {
         if (this.onEditTableIndex !== null && this.projectTables[this.onEditTableIndex]) {

@@ -3,7 +3,7 @@
 process.env.BABEL_ENV = 'main'
 
 const path = require('path')
-const pkg = require('../package.json')
+const { dependencies } = require('../package.json')
 const webpack = require('webpack')
 
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
@@ -12,21 +12,26 @@ let mainConfig = {
   entry: {
     main: path.join(__dirname, '../src/main/index.js')
   },
-  // externals: Object.keys(pkg.dependencies || {}).filter(d => !['vue'].includes(d)),
+  externals: [
+    ...Object.keys(dependencies || {})
+  ],
   module: {
     rules: [
+      {
+        test: /\.(js)$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            formatter: require('eslint-friendly-formatter')
+          }
+        }
+      },
       {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
-        use: 'unlazy-loader'
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader'
       },
       {
         test: /\.node$/,
@@ -35,8 +40,8 @@ let mainConfig = {
     ]
   },
   node: {
-    __dirname: false,
-    __filename: false
+    __dirname: process.env.NODE_ENV !== 'production',
+    __filename: process.env.NODE_ENV !== 'production'
   },
   output: {
     filename: '[name].js',
@@ -44,23 +49,31 @@ let mainConfig = {
     path: path.join(__dirname, '../dist/electron')
   },
   plugins: [
-    new BabiliWebpackPlugin({
-      removeConsole: true,
-      removeDebugger: true
-    }),
     new webpack.NoEmitOnErrorsPlugin()
   ],
   resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-    },
     extensions: ['.js', '.json', '.node']
   },
   target: 'electron-main'
 }
 
+/**
+ * Adjust mainConfig for development settings
+ */
+if (process.env.NODE_ENV !== 'production') {
+  mainConfig.plugins.push(
+    new webpack.DefinePlugin({
+      '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`
+    })
+  )
+}
+
+/**
+ * Adjust mainConfig for production settings
+ */
 if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
+    new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })

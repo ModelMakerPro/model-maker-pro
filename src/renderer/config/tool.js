@@ -1,21 +1,22 @@
 /**
  * Created by Deboy on 2017/5/12.
  */
-import defaultRow from './default-row'
+import projectConfigs from '../project-configs'
 import _ from 'lodash'
+
 /**
  * 根据类型 来合并某个字段 并返回合并后的字段列表
  * @param type
  * @param rows
  * @returns {Array}
  */
-export const mergeDefaultRow = (type = 'laravel', rows) => {
+export const mergeDefaultRow = (type, rows) => {
   if (rows instanceof Object) {
-    return _.merge({}, defaultRow[type], rows)
+    return _.merge({}, projectConfigs[type].fields, rows)
   } else {
     let list = []
     rows.forEach((row) => {
-      list.push(_.merge({}, defaultRow[type], row))
+      list.push(_.merge({}, projectConfigs[type].fields, row))
     })
     return list
   }
@@ -27,7 +28,7 @@ export const mergeDefaultRow = (type = 'laravel', rows) => {
  * @returns {*}
  */
 export const getDefaultRow = (type = 'laravel') => {
-  return defaultRow[type]
+  return projectConfigs[type].fields
 }
 
 // 将属性的值直接赋给属性 不用多一层属性 减少项目结构
@@ -67,7 +68,7 @@ let splitToArray = (str) => {
  */
 let setObjectPropToKeyValue = (field) => {
   Object.keys(field).forEach((key) => {
-    if (field[key] instanceof Object && key !== 'filter') {
+    if (field[key] instanceof Object && key !== 'options') {
       field[key] = setValue(field[key])
     }
   })
@@ -75,8 +76,8 @@ let setObjectPropToKeyValue = (field) => {
 }
 let dealWithFields = (field) => {
   field = setObjectPropToKeyValue(field)
-  if (field.customFilter) {
-    field.customFilter = splitToArray(field.customFilter)
+  if (field.options) {
+    field.options = splitToArray(field.options)
   }
   return field
 }
@@ -92,21 +93,21 @@ export const transformProjectInfo = (project) => {
       let field
       // 将db vue 及项目自有属性都转化为 key=>vlaue 形式 方便模版渲染调用
       field = dealWithFields(originField)
-      if (field.relTable) {
+      if (field.associationTable) {
         originProject.tables.forEach(table_2 => {
-          if (field.one) {
+          if (field.associateAttributes) {
             return
           }
-          if (table_2.id === field.relTable) {
+          if (table_2.id === field.associationTable) {
             let newTable = JSON.parse(JSON.stringify(table_2))
             // 删除关联表的关联信息 防止死循环关联
-            delete newTable.one
-            delete newTable.relTable
+            delete newTable.associateAttributes
+            delete newTable.associationTable
             newTable.fields.map(_field => {
               return dealWithFields(_field)
             })
-            field.one = table_2.fields
-            field.relTable = table_2.name
+            field.associateAttributes = table_2.fields
+            field.associationTable = table_2.name
             return
           }
         })

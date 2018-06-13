@@ -1,7 +1,7 @@
 <template>
     <div :style="contentWarpHeight">
         <Row>
-            <Col :style="contentWarpHeight" :span="4" style="border-right: 1px solid #e3e8ee;">
+            <i-col :style="contentWarpHeight" :span="4" style="border-right: 1px solid #e3e8ee;">
             <div class="menus">
                 <router-link tag="div" class="menu" :to="{name: 'baseSettings'}">
                     系统设置
@@ -13,10 +13,10 @@
                     日志管理
                 </router-link>
             </div>
-            </Col>
-            <Col :span="20" style="padding: 0 0 0 10px">
+            </i-col>
+            <i-col :span="20" style="padding: 0 0 0 10px">
                 <router-view></router-view>
-            </Col>
+            </i-col>
         </Row>
     </div>
 </template>

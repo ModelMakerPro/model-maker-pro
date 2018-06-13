@@ -7,7 +7,7 @@
  * value: 对应的value
  * saveAsSession: 是否保存到session
  * isObject: 需要储存的值 是否是对象 默认是
- * @param params
+ * @param args
  */
 export function save (args) {
   let params = Object.assign({}, {key: '', value: null, saveAsSession: false, isObject: true}, args)
@@ -26,7 +26,7 @@ export function save (args) {
  * getFromSession: 是否从session中获取的
  * isObject: 需要储存的值 是否是对象 默认是
  * defaultVal: 如果获取到时undefined或者空 则默认返回的值 默认是null
- * @param params
+ * @param args
  */
 export function get (args) {
   let params = Object.assign({}, {key: '', getFromSession: false, isObject: true, defaultVal: null}, args)

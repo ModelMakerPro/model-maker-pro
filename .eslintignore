@@ -1,3 +1,6 @@
-build/dist/**
+test/unit/coverage/**
+test/unit/*.js
+test/e2e/*.js
 src/renderer/config/**
 src/renderer/utils/**
+src/renderer/project-configs/**
